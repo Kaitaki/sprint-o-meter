@@ -1,0 +1,52 @@
+{
+  "text.autoconfig.sprintometer.title": "Sprint O' Meter Configuration",
+
+
+  "text.autoconfig.sprintometer.category.default": "Main Options",
+  "text.autoconfig.sprintometer.category.amountConf": "Amount Options",
+  "text.autoconfig.sprintometer.category.delayConf": "Delay Options",
+
+
+  "text.autoconfig.sprintometer.option.enableSprintOMeter": "Sprint O' Meter Enabled?",
+  "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[0]": "§l|§r Disable or Enable Sprint O' Meter.",
+  "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[2]":"§7§o(Default: true) §r| §8§nenableSprintOMeter (boolean)",
+
+  "text.autoconfig.sprintometer.option.lowStaminaWarn": "Low Stamina Alert Enabled?",
+  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[0]": "§l|§r Disable or the warning ping.",
+  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[2]":"§7§o(Default: true) §r| §8§nlowStaminaWarn (boolean)",
+
+  "text.autoconfig.sprintometer.option.coolDownDelay": "Stamina Cooldown Delay (Ticks)",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[0]": "§l|§r Delay between when the player stops",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[1]": "jumping and when it starts restoring",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[2]": " ",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[3]":"§7§o(Default: 25) §r| §8§ncoolDownDelay (int)",
+
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay": "Stamina Deduction Delay (Ticks)",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[0]": "§l|§r How slow the stamina reduces ",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[1]": "while sprinting (and warning ping speed)",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[2]": " ",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[3]": "§7§o(Default: 3) §r| §8§nstaminaDeductionDelay (int)",
+
+  "text.autoconfig.sprintometer.option.staminaRestorationDelay": "Stamina Restoration Delay (Ticks)",
+  "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[0]": "§l|§r How slow the stamina restores",
+  "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[2]": "§7§o(Default: 0) §r| §8§nstaminaRestorationDelay (int)",
+
+  "text.autoconfig.sprintometer.option.sprintDeductionAmount": "Sprint Deduction Amount",
+  "text.autoconfig.sprintometer.option.sprintDeductionAmount.@Tooltip[0]": "§l|§r How much the sprinting deducts",
+  "text.autoconfig.sprintometer.option.sprintDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.sprintDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nsprintDeductionAmount (int)",
+
+  "text.autoconfig.sprintometer.option.jumpDeductionAmount": "Jump Deduction Amount",
+  "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[0]": "§l|§r How much the jumping deducts",
+  "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§njumpDeductionAmount (int)",
+
+  "text.autoconfig.sprintometer.option.staminaRestorationAmount": "Stamina Restoration Amount",
+  "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[0]": "§l|§r How much stamina is restored every tick",
+  "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nstaminaRestorationAmount (int)"
+
+}
