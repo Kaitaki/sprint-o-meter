@@ -4,6 +4,7 @@ import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
@@ -47,7 +48,7 @@ public class ActionStamina {
                 if (Stamina == 0 && !i5) { i5 = true; }
                 if (Stamina != 0 && i5) { i5 = false; } i4 = 20;
             } else { i4--; }
-        }
+        } else if (i5 && configurator(7) == 0) {i5 = false; Stamina = 100;}
     }
 
     public static boolean outOfStamina() { return i5; } // For Debuff in KeyboardInputMixin
