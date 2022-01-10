@@ -40,8 +40,8 @@ public class KeyboardInputMixin extends Input {
             this.movementForward = (float)((double)this.movementForward * 0.3D);
 
         } else if (ActionStamina.outOfStamina()) {
-            this.movementSideways = (float)((double) this.movementSideways * 0.8D);
-            this.movementForward = (float)((double) this.movementForward * 0.8D);
+            this.movementSideways = (float)((double) this.movementSideways * 0.77D);
+            this.movementForward = (float)((double) this.movementForward * 0.77D);
         }
     }
 
