@@ -44,14 +44,15 @@ public class SprintOMeter implements ClientModInitializer {
         // Stamina Meter Renderer
         staminaRenderer = new StaminaRenderer(client);
 
+        // Client Tick
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player != null) {
+                ActionStamina.tick();
+                SprintOMeter.staminaRenderer.staminaHudManager.staminaHudDelay();
+            }
+        });
 
-    }
 
-    public static void tick() { // There's probably a better way to do this than a Mixin but this will do for now
-        if (client.player != null) {
-            ActionStamina.tick();
-            SprintOMeter.staminaRenderer.staminaHudManager.staminaHudDelay();
-        }
     }
 
 }
