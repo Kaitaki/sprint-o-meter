@@ -45,8 +45,8 @@ public class ActionStamina {
             } else { i2--; }
 
             if (i4 == 0) {
-                if (Stamina == 0 && !i5) { i5 = true; }
-                if (Stamina != 0 && i5) { i5 = false; } i4 = 20;
+                if (Stamina <= 0 && !i5) { i5 = true; }
+                if (Stamina > 0 && i5) { i5 = false; } i4 = 20;
             } else { i4--; }
         } else if (i5 && configurator(7) == 0) {i5 = false; Stamina = 100;}
     }
