@@ -2,6 +2,7 @@ package com.paperscp.sprintometer.client.ui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.paperscp.sprintometer.client.ActionStamina;
+import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -27,7 +28,7 @@ public class StaminaRenderer extends DrawableHelper {
         int scaledHeight = this.client.getWindow().getScaledHeight();
 
         // Display
-        if (player != null) {
+        if (player != null && SprintOMeterServer.sprintConfig.enableSprintOMeter) {
             client.textRenderer.drawWithShadow(stack, String.valueOf(staminaHudManager.staminaValue()), scaledWidth - 115, scaledHeight - staminaHudManager.staminaNumberCoords(), staminaHudManager.staminaNumberColor());
 
             client.getTextureManager().bindTexture(STAMINA_OVERLAY_ICON);
