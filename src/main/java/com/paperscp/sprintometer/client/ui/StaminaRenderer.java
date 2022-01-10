@@ -30,7 +30,7 @@ public class StaminaRenderer extends DrawableHelper {
         if (player != null && ActionStamina.staminaEligible()) {
             client.textRenderer.drawWithShadow(stack, String.valueOf(staminaHudManager.staminaValue()), scaledWidth - 115, scaledHeight - staminaHudManager.staminaNumberCoords(), staminaHudManager.staminaNumberColor());
 
-            RenderSystem.setShaderTexture(0, STAMINA_OVERLAY_ICON);
+            client.getTextureManager().bindTexture(STAMINA_OVERLAY_ICON);
                 drawTexture(stack, scaledWidth - 112, scaledHeight - staminaHudManager.staminaIconCoords(), 0, 0, 18, 18, 18, 18);
         }
 

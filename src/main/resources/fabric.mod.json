@@ -35,13 +35,13 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.17.x",
+    "minecraft": "1.16.x",
     "java": ">=16",
     "cloth-config2": "*"
 
   },
   "suggests": {
-    "modmenu": ">=2.0.4"
+    "modmenu": ">=1.16.22"
 
   }
 }

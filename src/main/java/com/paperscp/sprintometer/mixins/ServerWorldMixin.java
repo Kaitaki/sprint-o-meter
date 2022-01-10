@@ -18,7 +18,7 @@ public class ServerWorldMixin {
 
     @Inject(at = @At("TAIL"), method = "onPlayerConnected")
     public void onPlayerConnect(ServerPlayerEntity player, CallbackInfo ci) {
-        if (!player.getServer().isSingleplayer()) {
+        if (!player.getServer().isSinglePlayer()) {
             System.out.println("(SprintOMeter) Sending server config options to " + player.getEntityName() + "..");
             new SprintOConfig().sendConfigPackets(player);
         }
