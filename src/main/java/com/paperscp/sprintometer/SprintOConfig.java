@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 @Config(name = "sprintometer")
@@ -60,6 +61,15 @@ public class SprintOConfig implements ConfigData {
     public static void configInit() {
         AutoConfig.register(SprintOConfig.class, GsonConfigSerializer::new);
         SprintOMeterServer.sprintConfig = AutoConfig.getConfigHolder(SprintOConfig.class).getConfig();
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayerEntity player = handler.player;
+
+            if (!player.getServer().isSingleplayer()) {
+                SprintOMeterServer.logger.info("(SprintOMeter) Sending server config options to " + player.getEntityName() + "..");
+                new SprintOConfig().sendConfigPackets(player);
+            }
+        });
     }
 
     public void sendConfigPackets(ServerPlayerEntity player) {
@@ -67,6 +77,7 @@ public class SprintOConfig implements ConfigData {
 
         ConfigPacket cp = new ConfigPacket(player, 7);
 
+        // Feels like there would be a better way but I haven't found it yet
         cp.addConfig(SprintOMeterServer.sprintConfig.coolDownDelay);
         cp.addConfig(SprintOMeterServer.sprintConfig.staminaDeductionDelay);
         cp.addConfig(SprintOMeterServer.sprintConfig.staminaRestorationDelay);
@@ -77,6 +88,6 @@ public class SprintOConfig implements ConfigData {
 
         cp.sendPacket();
 
-        System.out.println("(SprintOMeter) Server config options sent!");
+        SprintOMeterServer.logger.info("(SprintOMeter) Server config options sent!");
     }
 }

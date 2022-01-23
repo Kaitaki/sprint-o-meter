@@ -5,7 +5,6 @@ import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
 import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(KeyboardInput.class)
 public class KeyboardInputMixin extends Input {
@@ -38,10 +37,6 @@ public class KeyboardInputMixin extends Input {
         if (slowDown) {
             this.movementSideways = (float)((double)this.movementSideways * 0.3D);
             this.movementForward = (float)((double)this.movementForward * 0.3D);
-
-        } else if (ActionStamina.outOfStamina()) {
-            this.movementSideways = (float)((double) this.movementSideways * 0.77D);
-            this.movementForward = (float)((double) this.movementForward * 0.77D);
         }
     }
 

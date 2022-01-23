@@ -1,8 +1,8 @@
 package com.paperscp.sprintometer.server;
 
 import com.paperscp.sprintometer.SprintOConfig;
-import com.paperscp.sprintometer.client.ActionStamina;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,8 +16,13 @@ public class SprintOMeterServer implements ModInitializer {
     @Override
     public void onInitialize() {
 
-        // Config Init
         SprintOConfig.configInit();
+
+        StaminaDebuff.debuffInit();
+
+        ServerTickEvents.START_WORLD_TICK.register(serverWorld -> {
+            StaminaDebuff.tick();
+        });
 
     }
 }

@@ -8,12 +8,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
-
-import java.util.Arrays;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 
 // TODO: Optimize & Port Over to Alchemic
 
@@ -23,6 +22,8 @@ public class SprintOMeter implements ClientModInitializer {
     public static MinecraftClient client = null;
     public static StaminaRenderer staminaRenderer;
 
+    private static boolean multiplayerWarned = false;
+
     @Override
     public void onInitializeClient() {
         // Final Global Variables
@@ -30,13 +31,12 @@ public class SprintOMeter implements ClientModInitializer {
 
         // Config Packet Data Receiver
         ClientPlayNetworking.registerGlobalReceiver(ConfigPacket.configValuesIdentifier, (client, handler, buf, responseSender) -> {
-            byte[] configValues = buf.readByteArray();
-
-            SprintOMeterServer.logger.info("Switching to server config options..");
+            int[] configValues = buf.readIntArray();
 
             client.execute(() -> {
 //                System.out.println(Arrays.toString(configValues));
 //                System.out.println(Arrays.toString(ConfigPacket.decodePacket(configValues, 7)));
+                SprintOMeterServer.logger.info("Switching to server config options..");
                 ActionStamina.packetSetter(ConfigPacket.decodePacket(configValues, 7));
             });
         });
@@ -44,7 +44,6 @@ public class SprintOMeter implements ClientModInitializer {
         // Stamina Meter Renderer
         staminaRenderer = new StaminaRenderer(client);
 
-        // Client Tick
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player != null) {
                 ActionStamina.tick();
@@ -52,6 +51,17 @@ public class SprintOMeter implements ClientModInitializer {
             }
         });
 
+        // Multiplayer Warn Message
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client1) -> {
+            if (!multiplayerWarned && !MinecraftClient.getInstance().isInSingleplayer()) { // Multiplayer Notice
+                multiplayerWarned = true;
+                client.inGameHud.getChatHud().addMessage(new LiteralText("[Sprint O' Meter]: Using server config options..").formatted(Formatting.GRAY));
+            }
+        });
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client1) -> {
+            multiplayerWarned = false;
+        });
 
     }
 
