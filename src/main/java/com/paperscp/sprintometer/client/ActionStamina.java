@@ -3,11 +3,15 @@ package com.paperscp.sprintometer.client;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import static com.paperscp.sprintometer.SprintOMeter.client;
 
@@ -16,7 +20,6 @@ import static com.paperscp.sprintometer.SprintOMeter.client;
 public class ActionStamina {
 
     public static int Stamina = 100;
-    public static boolean multiplayerWarned = false;
     public static boolean isJumpKeyPressed;
 
     private static int i = 0; // Cooldown Delay
@@ -24,6 +27,8 @@ public class ActionStamina {
     private static int i3 = 0; // Stamina Restoration Delay
     private static int i4 = 0; // Stamina Debuff Delay
     private static boolean i5 = false; // Stamina Debuff Switch
+
+    private static Identifier sprintDebuffIdentifier = new Identifier("sprintometer", "sprintable");
 
     // Server Packet Array
     private static Object[] configArray;
@@ -45,8 +50,22 @@ public class ActionStamina {
             } else { i2--; }
 
             if (i4 == 0) {
-                if (Stamina <= 0 && !i5) { i5 = true; }
-                if (Stamina > 0 && i5) { i5 = false; } i4 = 20;
+                if (Stamina <= 0 && !i5) {
+                    i5 = true;
+
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeBoolean(true);
+
+                    ClientPlayNetworking.send(sprintDebuffIdentifier, buf);
+                }
+                if (Stamina > 0 && i5) {
+                    i5 = false;
+
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeBoolean(false);
+
+                    ClientPlayNetworking.send(sprintDebuffIdentifier, buf);
+                } i4 = 20;
             } else { i4--; }
         } else if (i5 && configurator(7) == 0) {i5 = false; Stamina = 100;}
     }
@@ -99,11 +118,6 @@ public class ActionStamina {
                     throw new IndexOutOfBoundsException("Sprint O' Meter Configurator received invalid input!");
             }
         } else {
-            if (!multiplayerWarned) { // Multiplayer Notice
-                multiplayerWarned = true;
-                client.inGameHud.getChatHud().addMessage(new LiteralText("[Sprint O' Meter]: Using server config options..").formatted(Formatting.GRAY));
-            }
-
             switch (ix) {
                 case 1: return (int) configArray[0]; // Cooldown Delay - Delay between when the player stops jumping and when it starts restoring
                 case 2: return (int) configArray[1]; // Stamina Deduction Delay - How fast the stamina reduces while sprinting (Also controls the frequency of the warning ping)
