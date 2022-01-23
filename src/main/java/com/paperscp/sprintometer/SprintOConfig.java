@@ -65,7 +65,7 @@ public class SprintOConfig implements ConfigData {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity player = handler.player;
 
-            if (!player.getServer().isSingleplayer()) {
+            if (!player.getServer().isSinglePlayer()) {
                 SprintOMeterServer.logger.info("(SprintOMeter) Sending server config options to " + player.getEntityName() + "..");
                 new SprintOConfig().sendConfigPackets(player);
             }

@@ -1,6 +1,5 @@
 package com.paperscp.sprintometer.client.ui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
