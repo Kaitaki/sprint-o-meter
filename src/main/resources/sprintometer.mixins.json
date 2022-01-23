@@ -4,11 +4,9 @@
   "package": "com.paperscp.sprintometer.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "ServerWorldMixin"
   ],
   "client": [
     "InGameHudMixin",
-    "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin$MinecraftClientInterfaceMixin",
     "KeyboardInputMixin"
