@@ -31,7 +31,7 @@ public class SprintOMeter implements ClientModInitializer {
 
         // Config Packet Data Receiver
         ClientPlayNetworking.registerGlobalReceiver(ConfigPacket.configValuesIdentifier, (client, handler, buf, responseSender) -> {
-            int[] configValues = buf.readIntArray();
+            byte[] configValues = buf.readByteArray();
 
             client.execute(() -> {
 //                System.out.println(Arrays.toString(configValues));
@@ -59,9 +59,7 @@ public class SprintOMeter implements ClientModInitializer {
             }
         });
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client1) -> {
-            multiplayerWarned = false;
-        });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client1) -> multiplayerWarned = false);
 
     }
 

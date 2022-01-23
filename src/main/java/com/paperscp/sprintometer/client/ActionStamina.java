@@ -22,10 +22,10 @@ public class ActionStamina {
     public static int Stamina = 100;
     public static boolean isJumpKeyPressed;
 
-    private static int i = 0; // Cooldown Delay
-    private static int i2 = 0; // Stamina Deduction Delay
-    private static int i3 = 0; // Stamina Restoration Delay
-    private static int i4 = 0; // Stamina Debuff Delay
+    private static byte i = 0; // Cooldown Delay
+    private static byte i2 = 0; // Stamina Deduction Delay
+    private static byte i3 = 0; // Stamina Restoration Delay
+    private static byte i4 = 0; // Stamina Debuff Delay
     private static boolean i5 = false; // Stamina Debuff Switch
 
     private static Identifier sprintDebuffIdentifier = new Identifier("sprintometer", "sprintable");
@@ -46,7 +46,7 @@ public class ActionStamina {
 
             if (i2 == 0) {
                 staminaDeduction(isSprinting, isJumping); i2 = configurator(2);
-                if (Stamina <= 25 && (isSprinting || isJumping)) { if (intToBoolean(configurator(8))) { player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2); } }
+                if (Stamina <= 25 && (isSprinting || isJumping) && intToBoolean(configurator(8))) { player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2); }
             } else { i2--; }
 
             if (i4 == 0) {
@@ -99,19 +99,19 @@ public class ActionStamina {
     // Util
     private static boolean intToBoolean(int intValue) { return intValue != 0; }
 
-    private static int configurator(int ix) {
+    private static byte configurator(int ix) {
         boolean is_singleplayer = client.isInSingleplayer();
 
         if (is_singleplayer) {
             switch (ix) {
-                case 1: return SprintOMeterServer.sprintConfig.coolDownDelay;
-                case 2: return SprintOMeterServer.sprintConfig.staminaDeductionDelay;
-                case 3: return SprintOMeterServer.sprintConfig.staminaRestorationDelay;
-                case 4: return SprintOMeterServer.sprintConfig.sprintDeductionAmount;
-                case 5: return SprintOMeterServer.sprintConfig.jumpDeductionAmount;
-                case 6: return SprintOMeterServer.sprintConfig.staminaRestorationAmount;
-                case 7: return SprintOMeterServer.sprintConfig.enableSprintOMeter ? 1 : 0;
-                case 8: return SprintOMeterServer.sprintConfig.lowStaminaWarn ? 1 : 0;
+                case 1: return (byte) SprintOMeterServer.sprintConfig.coolDownDelay;
+                case 2: return (byte) SprintOMeterServer.sprintConfig.staminaDeductionDelay;
+                case 3: return (byte) SprintOMeterServer.sprintConfig.staminaRestorationDelay;
+                case 4: return (byte) SprintOMeterServer.sprintConfig.sprintDeductionAmount;
+                case 5: return (byte) SprintOMeterServer.sprintConfig.jumpDeductionAmount;
+                case 6: return (byte) SprintOMeterServer.sprintConfig.staminaRestorationAmount;
+                case 7: return (byte) (SprintOMeterServer.sprintConfig.enableSprintOMeter ? 1 : 0);
+                case 8: return (byte) (SprintOMeterServer.sprintConfig.lowStaminaWarn ? 1 : 0);
 
                 default:
                     SprintOMeterServer.logger.fatal("Something happened while trying to get config values!");
@@ -119,14 +119,14 @@ public class ActionStamina {
             }
         } else {
             switch (ix) {
-                case 1: return (int) configArray[0]; // Cooldown Delay - Delay between when the player stops jumping and when it starts restoring
-                case 2: return (int) configArray[1]; // Stamina Deduction Delay - How fast the stamina reduces while sprinting (Also controls the frequency of the warning ping)
-                case 3: return (int) configArray[2]; // Stamina Restoration Delay - How fast the stamina restores
-                case 4: return (int) configArray[3]; // Stamina Sprint Deduction Amount - How much the sprinting deducts
-                case 5: return (int) configArray[4]; // Stamina Jump Deduction Amount - How much the jumping deducts
-                case 6: return (int) configArray[5]; // Stamina Restoration Amount - How much stamina is restored every tick
-                case 7: return (boolean) configArray[6] ? 1 : 0; // Is Enabled? - Determines if SprintOMeter enabled or not
-                case 8: return SprintOMeterServer.sprintConfig.lowStaminaWarn ? 1 : 0; // Warning Ping Enabled? - Determines if the warning ping should play or not (This 'case' is the same as the singleplayer one as the warning ping is a completely client-sided feature.)
+                case 1: return (byte) configArray[0]; // Cooldown Delay - Delay between when the player stops jumping and when it starts restoring
+                case 2: return (byte) configArray[1]; // Stamina Deduction Delay - How fast the stamina reduces while sprinting (Also controls the frequency of the warning ping)
+                case 3: return (byte) configArray[2]; // Stamina Restoration Delay - How fast the stamina restores
+                case 4: return (byte) configArray[3]; // Stamina Sprint Deduction Amount - How much the sprinting deducts
+                case 5: return (byte) configArray[4]; // Stamina Jump Deduction Amount - How much the jumping deducts
+                case 6: return (byte) configArray[5]; // Stamina Restoration Amount - How much stamina is restored every tick
+                case 7: return (byte) ((boolean) configArray[6] ? 1 : 0); // Is Enabled? - Determines if SprintOMeter enabled or not
+                case 8: return (byte) (SprintOMeterServer.sprintConfig.lowStaminaWarn ? 1 : 0); // Warning Ping Enabled? - Determines if the warning ping should play or not (This 'case' is the same as the singleplayer one as the warning ping is a completely client-sided feature.)
 
                 default:
                     SprintOMeterServer.logger.fatal("Something happened while trying to get config values!");
