@@ -15,15 +15,15 @@ public class StaminaDebuff {
 
     private static Identifier sprintDebuffIdentifier = new Identifier(MOD_ID, "sprintable");
 
-    private static int i; // Debuff Apply Delay
-    private static int i2 = 0; // First Time Apply
+    private static short i; // Debuff Apply Delay
+    private static byte i2 = 0; // First Time Apply
 
     public static void debuffInit() {
 
         ServerPlayNetworking.registerGlobalReceiver(sprintDebuffIdentifier, (server, player, handler, buf, responseSender) -> {
             debuffActive = buf.readBoolean();
 
-            System.out.println(debuffActive);
+//            System.out.println(debuffActive);
 
             server.execute(() -> {
                 serverPlayerEntity = server.getPlayerManager().getPlayer(player.getUuid());

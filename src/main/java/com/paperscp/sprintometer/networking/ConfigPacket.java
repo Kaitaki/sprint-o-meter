@@ -9,22 +9,22 @@ import net.minecraft.util.Identifier;
 import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 
 public class ConfigPacket {
-    private int i = 0; // ByteArray Increment
+    private short i = 0; // ByteArray Increment
 
     public static Identifier configValuesIdentifier = new Identifier(MOD_ID,"config-values");
 
-    private final int [] configValues;
+    private final byte [] configValues;
     PacketByteBuf buf = PacketByteBufs.create();
 
     private final ServerPlayerEntity playerEntity;
 
     public ConfigPacket(ServerPlayerEntity playerEntity, int amount) {
         this.playerEntity = playerEntity;
-        this.configValues = new int[amount * 2];
+        this.configValues = new byte[amount * 2];
     }
 
     public void addConfig(int configOption) {
-        configValues[i] = configOption;
+        configValues[i] = (byte) configOption;
         i++;
 
         configValues[i] = 1;
@@ -40,9 +40,8 @@ public class ConfigPacket {
         i++;
     }
 
-
     public void sendPacket() {
-        buf.writeIntArray(configValues);
+        buf.writeByteArray(configValues);
 
         ServerPlayNetworking.send(playerEntity, configValuesIdentifier, buf);
     }
@@ -51,12 +50,12 @@ public class ConfigPacket {
         return intValue != 0;
     }
 
-    public static Object[] decodePacket(int[] configValues, int configAmount) {
+    public static Object[] decodePacket(byte[] configValues, int configAmount) {
         boolean valueNumber = true;
-        int inc = 0;
+        short inc = 0;
         Object[] returnArray = new Object[configAmount];
 
-        for (int i = 0; i < configValues.length; i++) {
+        for (short i = 0; i < configValues.length; i++) {
             if (valueNumber) {
                 if (configValues[i + 1] == 1) {
                     returnArray[inc] = configValues[i];
