@@ -9,9 +9,9 @@ import static com.paperscp.sprintometer.SprintOMeter.client;
 
 @Environment(EnvType.CLIENT)
 public class StaminaHudManager {
-    private int hudTimer = 0; // In Ticks
+    private byte hudTimer = 0; // In Ticks
     private int posY = 0; // Stamina Icon Y Coordinate
-    private int actionTimer = 0; // 3 Tick Delay For Checking "is_sprinting" & "is_jumping"
+    private byte actionTimer = 0; // 3 Tick Delay For Checking "is_sprinting" & "is_jumping"
 
     public int staminaNumberCoords() { return posY == 20 ? 28 : 0; }
 
@@ -21,7 +21,7 @@ public class StaminaHudManager {
         if (actionTimer(1) || actionTimer(2) || Stamina != 100) {
             hudTimer = 23;
         } else if (hudTimer > 0) {
-            hudTimer = hudTimer - 1;
+            hudTimer = (byte) (hudTimer - 1);
         }
     }
 
@@ -39,8 +39,8 @@ public class StaminaHudManager {
 
         if (Stamina != 100) {
             if (posY == 20) {return posY;}
-            if (!(posY >= 20)) { posY = posY + z; }
-            if (posY > 20) {posY = 20;}
+            if (posY < 20) { posY = (posY + z); }
+            if (posY > 20) { posY = 20; }
 
             return posY;
 
@@ -50,8 +50,8 @@ public class StaminaHudManager {
 
         } else {
             if (posY == 0) {return posY;}
-            if (!(posY <= 0)) { posY = posY - z; }
-            if (posY < 0) {posY = 0;}
+            if (posY > 0) { posY = (posY - z); }
+            if (posY < 0) { posY = 0; }
 
             return posY;
         }
