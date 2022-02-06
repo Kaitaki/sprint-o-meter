@@ -11,9 +11,9 @@ import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 public class ConfigPacket {
     private short i = 0; // ByteArray Increment
 
-    public static Identifier configValuesIdentifier = new Identifier(MOD_ID,"config-values");
+    public static final Identifier configValuesIdentifier = new Identifier(MOD_ID,"config-values");
 
-    private final byte [] configValues;
+    private final byte[] configValues;
     PacketByteBuf buf = PacketByteBufs.create();
 
     private final ServerPlayerEntity playerEntity;
@@ -32,10 +32,9 @@ public class ConfigPacket {
     }
 
     public void addConfig(boolean configOption) {
-        if (configOption) { configValues[i] = 1; i++; configValues[i] = 2; i++; return; }
-        configValues[i] = 0;
+        if (configOption) { configValues[i] = 1; }
+        else { configValues[i] = 0; }
         i++;
-
         configValues[i] = 2;
         i++;
     }
@@ -46,9 +45,7 @@ public class ConfigPacket {
         ServerPlayNetworking.send(playerEntity, configValuesIdentifier, buf);
     }
 
-    private static boolean intToBoolean(int intValue) {
-        return intValue != 0;
-    }
+    private static boolean intToBoolean(int intValue) { return intValue != 0; }
 
     public static Object[] decodePacket(byte[] configValues, int configAmount) {
         boolean valueNumber = true;
