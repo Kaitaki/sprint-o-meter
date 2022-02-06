@@ -26,7 +26,6 @@ public class SprintOMeter implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        // Final Global Variables
         client = MinecraftClient.getInstance();
 
         // Config Packet Data Receiver
