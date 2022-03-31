@@ -9,8 +9,9 @@
     "PaperPisces/Scorpio"
   ],
   "contact": {
-    "homepage": "mod page",
-    "sources": "https://github.com/PaperScorpio/sprint-o-meter"
+    "homepage": "https://modrinth.com/mod/sprintometer",
+    "sources": "https://github.com/PaperScorpio/sprint-o-meter",
+    "issues": "https://github.com/PaperScorpio/sprint-o-meter/issues"
   },
 
   "license": "CC BY-NC 4.0",
