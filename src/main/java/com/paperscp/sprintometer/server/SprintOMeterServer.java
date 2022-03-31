@@ -1,6 +1,6 @@
 package com.paperscp.sprintometer.server;
 
-import com.paperscp.sprintometer.SprintOConfig;
+import com.paperscp.sprintometer.config.SprintOConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +20,7 @@ public class SprintOMeterServer implements ModInitializer {
 
         StaminaDebuff.debuffInit();
 
-        ServerTickEvents.START_WORLD_TICK.register(serverWorld -> {
-            StaminaDebuff.tick();
-        });
+        ServerTickEvents.START_WORLD_TICK.register(serverWorld -> StaminaDebuff.tick());
 
     }
 }

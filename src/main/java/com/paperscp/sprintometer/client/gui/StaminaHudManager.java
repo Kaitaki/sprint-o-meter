@@ -1,4 +1,4 @@
-package com.paperscp.sprintometer.client.ui;
+package com.paperscp.sprintometer.client.gui;
 
 import com.paperscp.sprintometer.client.ActionStamina;
 import com.paperscp.sprintometer.mixins.MinecraftClientMixin;
@@ -27,19 +27,20 @@ public class StaminaHudManager {
 
     public int staminaNumberColor() {
         int Stamina = ActionStamina.Stamina;
+
         return Stamina <= 25 ? 0xFFFF00 : 0xFFFFFF;
     }
 
     public int staminaIconCoords() {
-        int x = ((MinecraftClientMixin.MinecraftClientInterfaceMixin)client).getCurrentFPS();
-        double y = 140.0 / x;
-        int z = (int) Math.round(y);
+        int a = ((MinecraftClientMixin.MinecraftClientInterfaceMixin)client).getCurrentFPS();
+        double b = 140.0 / a;
+        int c = (int) Math.round(b);
 
         int Stamina = ActionStamina.Stamina;
 
         if (Stamina != 100) {
             if (posY == 20) {return posY;}
-            if (posY < 20) { posY = (posY + z); }
+            if (posY < 20) { posY = (posY + c); }
             if (posY > 20) { posY = 20; }
 
             return posY;
@@ -49,8 +50,8 @@ public class StaminaHudManager {
             return posY;
 
         } else {
-            if (posY == 0) {return posY;}
-            if (posY > 0) { posY = (posY - z); }
+            if (posY == 0) { return posY; }
+            if (posY > 0) { posY = (posY - c); }
             if (posY < 0) { posY = 0; }
 
             return posY;
@@ -62,7 +63,7 @@ public class StaminaHudManager {
         boolean is_sprinting = client.player.isSprinting();
         boolean is_jumping = ActionStamina.isJumpKeyPressed;
 
-        if (actionTimer == 3) { actionTimer = 0; return ix == 1 ? is_sprinting : is_jumping; }
+        if (actionTimer == 4) { actionTimer = 0; return ix == 1 ? is_sprinting : is_jumping; }
         else {actionTimer++; return false;}
     }
 

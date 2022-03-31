@@ -1,7 +1,8 @@
 package com.paperscp.sprintometer;
 
 import com.paperscp.sprintometer.client.ActionStamina;
-import com.paperscp.sprintometer.client.ui.StaminaRenderer;
+import com.paperscp.sprintometer.client.gui.StaminaRenderer;
+import com.paperscp.sprintometer.config.SprintOConfig;
 import com.paperscp.sprintometer.networking.ConfigPacket;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,15 +15,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 
-// TODO: Optimize & Port Over to Alchemic
+// TODO: Optimize New Drowning & Stamina Bug Fix Additions + Difficulty System
 
 @Environment(EnvType.CLIENT)
 public class SprintOMeter implements ClientModInitializer {
 
     public static MinecraftClient client = null;
     public static StaminaRenderer staminaRenderer;
-
-    private static boolean multiplayerWarned = false;
 
     @Override
     public void onInitializeClient() {
@@ -36,29 +35,24 @@ public class SprintOMeter implements ClientModInitializer {
 //                System.out.println(Arrays.toString(configValues));
 //                System.out.println(Arrays.toString(ConfigPacket.decodePacket(configValues, 7)));
                 SprintOMeterServer.logger.info("Switching to server config options..");
-                ActionStamina.packetSetter(ConfigPacket.decodePacket(configValues, 7));
+                SprintOConfig.Configurator.packetSetter(configValues);
             });
         });
 
         // Stamina Meter Renderer
         staminaRenderer = new StaminaRenderer(client);
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.player != null) {
-                ActionStamina.tick();
-                SprintOMeter.staminaRenderer.staminaHudManager.staminaHudDelay();
-            }
+        ClientTickEvents.END_WORLD_TICK.register(client -> {
+            ActionStamina.tick();
+            SprintOMeter.staminaRenderer.staminaHudManager.staminaHudDelay();
         });
 
         // Multiplayer Warn Message
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client1) -> {
-            if (!multiplayerWarned && !MinecraftClient.getInstance().isInSingleplayer()) { // Multiplayer Notice
-                multiplayerWarned = true;
+            if (!MinecraftClient.getInstance().isInSingleplayer()) { // Multiplayer Notice
                 client.inGameHud.getChatHud().addMessage(new LiteralText("[Sprint O' Meter]: Using server config options..").formatted(Formatting.GRAY));
             }
         });
-
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client1) -> multiplayerWarned = false);
 
     }
 

@@ -13,7 +13,7 @@ public class StaminaDebuff {
     private static boolean debuffActive;
     private static ServerPlayerEntity serverPlayerEntity;
 
-    private static Identifier sprintDebuffIdentifier = new Identifier(MOD_ID, "sprintable");
+    private static final Identifier sprintDebuffIdentifier = new Identifier(MOD_ID, "sprintable");
 
     private static short i; // Debuff Apply Delay
     private static byte i2 = 0; // First Time Apply
@@ -25,9 +25,7 @@ public class StaminaDebuff {
 
 //            System.out.println(debuffActive);
 
-            server.execute(() -> {
-                serverPlayerEntity = server.getPlayerManager().getPlayer(player.getUuid());
-            });
+            server.execute(() -> serverPlayerEntity = server.getPlayerManager().getPlayer(player.getUuid()));
         });
 
     }
@@ -38,10 +36,14 @@ public class StaminaDebuff {
 
             if (serverPlayerEntity != null && (i >= 150 || i2 == 0)) {
                 // Approximately 3 Second Duration
+
+//                serverPlayerEntity.getEntityWorld().getDifficulty()
+
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 66, 0));
+
                 i = 0; i2 = 1;
             }
 
-        } else {i = 0; i2 = 0;}
+        } else { i = 0; i2 = 0; }
     }
 }

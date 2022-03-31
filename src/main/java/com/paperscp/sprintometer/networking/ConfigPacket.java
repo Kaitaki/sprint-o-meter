@@ -20,23 +20,23 @@ public class ConfigPacket {
 
     public ConfigPacket(ServerPlayerEntity playerEntity, int amount) {
         this.playerEntity = playerEntity;
-        this.configValues = new byte[amount * 2];
+        this.configValues = new byte[amount];
     }
 
     public void addConfig(int configOption) {
         configValues[i] = (byte) configOption;
         i++;
 
-        configValues[i] = 1;
-        i++;
+//        configValues[i] = 1;
+//        i++;
     }
 
     public void addConfig(boolean configOption) {
         if (configOption) { configValues[i] = 1; }
         else { configValues[i] = 0; }
         i++;
-        configValues[i] = 2;
-        i++;
+//        configValues[i] = 2;
+//        i++;
     }
 
     public void sendPacket() {
@@ -45,31 +45,29 @@ public class ConfigPacket {
         ServerPlayNetworking.send(playerEntity, configValuesIdentifier, buf);
     }
 
-    private static boolean intToBoolean(int intValue) { return intValue != 0; }
-
-    public static Object[] decodePacket(byte[] configValues, int configAmount) {
-        boolean valueNumber = true;
-        short inc = 0;
-        Object[] returnArray = new Object[configAmount];
-
-        for (short i = 0; i < configValues.length; i++) {
-            if (valueNumber) {
-                if (configValues[i + 1] == 1) {
-                    returnArray[inc] = configValues[i];
-                    inc++;
-                }
-                else if (configValues[i + 1] == 2) {
-                    returnArray[inc] = intToBoolean(configValues[i]);
-                    inc++;
-                }
-
-                valueNumber = false;
-            } else {
-                valueNumber = true;
-            }
-        }
-
-        return returnArray;
-    }
+//    public static byte[] decodePacket(byte[] configValues, int configAmount) {
+//        boolean valueNumber = true;
+//        short inc = 0;
+//        byte[] returnArray = new byte[configAmount];
+//
+//        for (short i = 0; i < configValues.length; i++) {
+//            if (valueNumber) {
+//                if (configValues[i + 1] == 1) {
+//                    returnArray[inc] = configValues[i];
+//                    inc++;
+//                }
+//                else if (configValues[i + 1] == 2) {
+//                    returnArray[inc] = configValues[i];
+//                    inc++;
+//                }
+//
+//                valueNumber = false;
+//            } else {
+//                valueNumber = true;
+//            }
+//        }
+//
+//        return returnArray;
+//    }
 
 }
