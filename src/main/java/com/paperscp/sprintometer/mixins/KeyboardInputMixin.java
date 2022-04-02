@@ -1,13 +1,8 @@
 package com.paperscp.sprintometer.mixins;
 
-import com.paperscp.sprintometer.SprintOMeter;
-import com.paperscp.sprintometer.client.ActionStamina;
-import com.paperscp.sprintometer.config.ConfiguratorOptions;
-import com.paperscp.sprintometer.config.SprintOConfig;
-import net.minecraft.client.MinecraftClient;
+import com.paperscp.sprintometer.client.StaminaManager;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,9 +22,9 @@ public class KeyboardInputMixin extends Input {
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void tick(boolean slowDown, CallbackInfo ci) {
-        ActionStamina.isJumpKeyPressed = this.settings.keyJump.isPressed();
+        StaminaManager.isJumpKeyPressed = this.settings.keyJump.isPressed();
 
-        this.jumping = !ActionStamina.outOfStamina() && this.settings.keyJump.isPressed();
+        this.jumping = !StaminaManager.isOutOfStamina() && this.settings.keyJump.isPressed();
     }
 
 }

@@ -1,7 +1,7 @@
 package com.paperscp.sprintometer.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.paperscp.sprintometer.client.ActionStamina;
+import com.paperscp.sprintometer.client.StaminaManager;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -52,12 +52,17 @@ public class StaminaRenderer extends DrawableHelper {
         // Display
         if (SprintOMeterServer.sprintConfig.enableSprintOMeter && player != null && !player.isCreative() && !player.isSpectator()) {
 
-            if (tempCache == 0 && ActionStamina.Stamina == 100) { return; }
+            if (tempCache == 0 && StaminaManager.Stamina == 100) { return; }
 
-            client.textRenderer.drawWithShadow(stack, String.valueOf(staminaHudManager.staminaValue()), scaledWidth - 115, scaledHeight - staminaHudManager.staminaNumberCoords(), staminaHudManager.staminaNumberColor());
+            client.textRenderer.drawWithShadow(stack,
+                    String.valueOf(staminaHudManager.getStaminaValue()),
+                    scaledWidth - 115,
+                    scaledHeight - staminaHudManager.getNumberCoords(),
+                    staminaHudManager.getNumberColor()
+            );
 
             RenderSystem.setShaderTexture(0, STAMINA_OVERLAY_ICON);
-                int staminaIconCoords = staminaHudManager.staminaIconCoords();
+                int staminaIconCoords = staminaHudManager.getIconCoords();
                 drawTexture(stack, scaledWidth - 112, scaledHeight - staminaIconCoords, 0, 0, 18, 18, 18, 18);
             tempCache = (byte) staminaIconCoords;
         }

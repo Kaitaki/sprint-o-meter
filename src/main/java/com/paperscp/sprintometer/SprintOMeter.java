@@ -1,6 +1,6 @@
 package com.paperscp.sprintometer;
 
-import com.paperscp.sprintometer.client.ActionStamina;
+import com.paperscp.sprintometer.client.StaminaManager;
 import com.paperscp.sprintometer.client.gui.StaminaRenderer;
 import com.paperscp.sprintometer.config.SprintOConfig;
 import com.paperscp.sprintometer.networking.ConfigPacket;
@@ -15,7 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 
-// TODO: Optimize New Drowning & Stamina Bug Fix Additions + Difficulty System
+// TODO: Optimize New Drowning & Stamina Bug Fix Additions + Difficulty System + Stamina BAR?
 
 @Environment(EnvType.CLIENT)
 public class SprintOMeter implements ClientModInitializer {
@@ -35,7 +35,7 @@ public class SprintOMeter implements ClientModInitializer {
 //                System.out.println(Arrays.toString(configValues));
 //                System.out.println(Arrays.toString(ConfigPacket.decodePacket(configValues, 7)));
                 SprintOMeterServer.logger.info("Switching to server config options..");
-                SprintOConfig.Configurator.packetSetter(configValues);
+                SprintOConfig.Configurator.setClientConfig(configValues);
             });
         });
 
@@ -43,8 +43,8 @@ public class SprintOMeter implements ClientModInitializer {
         staminaRenderer = new StaminaRenderer(client);
 
         ClientTickEvents.END_WORLD_TICK.register(client -> {
-            ActionStamina.tick();
-            SprintOMeter.staminaRenderer.staminaHudManager.staminaHudDelay();
+            StaminaManager.tick();
+            SprintOMeter.staminaRenderer.staminaHudManager.tick();
         });
 
         // Multiplayer Warn Message
