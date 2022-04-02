@@ -15,10 +15,10 @@ public class StaminaDebuff {
 
     private static final Identifier sprintDebuffIdentifier = new Identifier(MOD_ID, "sprintable");
 
-    private static short i; // Debuff Apply Delay
-    private static byte i2 = 0; // First Time Apply
+    private static short debuffDelay; // Debuff Apply Delay
+    private static byte initApplied = 0; // First Time Apply
 
-    public static void debuffInit() {
+    public static void initDebuff() {
 
         ServerPlayNetworking.registerGlobalReceiver(sprintDebuffIdentifier, (server, player, handler, buf, responseSender) -> {
             debuffActive = buf.readBoolean();
@@ -32,18 +32,18 @@ public class StaminaDebuff {
 
     public static void tick() { // World Tick
         if (debuffActive) {
-            i++;
+            debuffDelay++;
 
-            if (serverPlayerEntity != null && (i >= 150 || i2 == 0)) {
+            if (serverPlayerEntity != null && (debuffDelay >= 150 || initApplied == 0)) {
                 // Approximately 3 Second Duration
 
 //                serverPlayerEntity.getEntityWorld().getDifficulty()
 
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 66, 0));
 
-                i = 0; i2 = 1;
+                debuffDelay = 0; initApplied = 1;
             }
 
-        } else { i = 0; i2 = 0; }
+        } else { debuffDelay = 0; initApplied = 0; }
     }
 }

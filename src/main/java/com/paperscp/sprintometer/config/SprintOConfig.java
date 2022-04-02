@@ -9,7 +9,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
-import org.lwjgl.system.CallbackI;
 
 import static com.paperscp.sprintometer.SprintOMeter.client;
 
@@ -74,7 +73,7 @@ public class SprintOConfig implements ConfigData {
 
     //--
 
-    public static void configInit() {
+    public static void initConfig() {
         AutoConfig.register(SprintOConfig.class, GsonConfigSerializer::new);
         SprintOMeterServer.sprintConfig = AutoConfig.getConfigHolder(SprintOConfig.class).getConfig();
 
@@ -113,7 +112,7 @@ public class SprintOConfig implements ConfigData {
 
         public static final short configAmount = 7;
 
-        public static byte configurator(ConfiguratorOptions configOption) {
+        public static byte getConfig(ConfiguratorOptions configOption) {
             boolean is_singleplayer = client.isInSingleplayer();
 
             if (is_singleplayer) {
@@ -165,7 +164,7 @@ public class SprintOConfig implements ConfigData {
 
         }
 
-        public static void packetSetter(byte[] configIntArray) {
+        public static void setClientConfig(byte[] configIntArray) {
             boolean is_singleplayer = client.isInSingleplayer();
 
             if (!is_singleplayer) { configArray = configIntArray; }

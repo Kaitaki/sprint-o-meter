@@ -16,9 +16,9 @@ public class SprintOMeterServer implements ModInitializer {
     @Override
     public void onInitialize() {
 
-        SprintOConfig.configInit();
+        SprintOConfig.initConfig();
 
-        StaminaDebuff.debuffInit();
+        StaminaDebuff.initDebuff();
 
         ServerTickEvents.START_WORLD_TICK.register(serverWorld -> StaminaDebuff.tick());
 
