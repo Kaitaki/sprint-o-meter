@@ -50,7 +50,7 @@ public class StaminaRenderer extends DrawableHelper {
 //        }
 
         // Display
-        if (player != null && SprintOMeterServer.sprintConfig.enableSprintOMeter && !player.isCreative() && !player.isSpectator()) {
+        if (SprintOMeterServer.sprintConfig.enableSprintOMeter && player != null && !player.isCreative() && !player.isSpectator()) {
 
             if (tempCache == 0 && ActionStamina.Stamina == 100) { return; }
 

@@ -1,7 +1,7 @@
 package com.paperscp.sprintometer.client.gui;
 
 import com.paperscp.sprintometer.client.ActionStamina;
-import com.paperscp.sprintometer.mixins.MinecraftClientMixin;
+import com.paperscp.sprintometer.mixins.MinecraftClientInterfaceMixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -32,7 +32,7 @@ public class StaminaHudManager {
     }
 
     public int staminaIconCoords() {
-        int a = ((MinecraftClientMixin.MinecraftClientInterfaceMixin)client).getCurrentFPS();
+        int a = ((MinecraftClientInterfaceMixin)client).getCurrentFPS();
         double b = 140.0 / a;
         int c = (int) Math.round(b);
 
