@@ -45,10 +45,10 @@ dependencies {
 
 	// modImplementation include("com.gitlab.Lortseam:completeconfig:1.1.0")
 
-	modApi("me.shedaniel.cloth:cloth-config-fabric:6.1.48") {
+	modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modImplementation 'com.terraformersmc:modmenu:3.0.1'
+	modImplementation 'com.terraformersmc:modmenu:3.1.0'
 
 	modImplementation "com.ptsmods:devlogin:2.0"
 }
