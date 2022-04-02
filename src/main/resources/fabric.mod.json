@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Sprint O' Meter",
-  "description": "A simple customizable stamina system.",
+  "description": "An extensively customizable stamina system.",
   "authors": [
     "PaperPisces/Scorpio"
   ],
