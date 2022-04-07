@@ -52,7 +52,7 @@ public class StaminaRenderer extends DrawableHelper {
         // Display
         if (SprintOMeterServer.sprintConfig.enableSprintOMeter && player != null && !player.isCreative() && !player.isSpectator()) {
 
-            if (tempCache == 0 && StaminaManager.Stamina == 100) { return; }
+            if (tempCache == 0 && StaminaManager.stamina == 100) { return; }
 
             client.textRenderer.drawWithShadow(stack,
                     String.valueOf(staminaHudManager.getStaminaValue()),
