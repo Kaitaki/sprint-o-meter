@@ -16,7 +16,7 @@ public class StaminaHudManager {
     public int getNumberCoords() { return posY == 20 ? 28 : 0; }
 
     public void tick() {
-        int Stamina = StaminaManager.Stamina;
+        int Stamina = StaminaManager.stamina;
 
         if (isSprintingOrJumpingDelayed(1) || isSprintingOrJumpingDelayed(2) || Stamina != 100) {
             hudTimer = 23;
@@ -26,7 +26,7 @@ public class StaminaHudManager {
     }
 
     public int getNumberColor() {
-        int Stamina = StaminaManager.Stamina;
+        int Stamina = StaminaManager.stamina;
 
         return Stamina <= 25 ? 0xFFFF00 : 0xFFFFFF;
     }
@@ -36,7 +36,7 @@ public class StaminaHudManager {
         double b = 140.0 / a;
         int c = (int) Math.round(b);
 
-        int Stamina = StaminaManager.Stamina;
+        int Stamina = StaminaManager.stamina;
 
         if (Stamina != 100) {
             if (posY == 20) {return posY;}
@@ -68,7 +68,7 @@ public class StaminaHudManager {
     }
 
     public int getStaminaValue() {
-        return StaminaManager.Stamina < 0 ? 0 : Math.min(StaminaManager.Stamina, 100);
+        return StaminaManager.stamina < 0 ? 0 : Math.min(StaminaManager.stamina, 100);
 
     }
 }

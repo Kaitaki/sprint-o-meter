@@ -1,6 +1,6 @@
 package com.paperscp.sprintometer.client;
 
-import com.paperscp.sprintometer.server.SprintOMeterServer;
+import com.paperscp.sprintometer.server.StaminaDebuff;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -18,15 +18,14 @@ import static com.paperscp.sprintometer.config.SprintOConfig.Configurator.getCon
 @Environment(EnvType.CLIENT)
 public class StaminaManager {
 
-    public static int Stamina = 100;
+    public static int stamina = 100;
     public static boolean isJumpKeyPressed;
 
     private static byte cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay, isEnabledDelay = 0;
     private static boolean staminaDebuffSwitch = false;
     private static byte isEnabledCache = 1;
 
-
-    private static final Identifier SPRINT_DEBUFF_IDENTIFIER = new Identifier(SprintOMeterServer.MOD_ID, "sprintable");
+    private static final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
 
 //    public static byte temp(int ix) { // For Debug Menu in StaminaRenderer
 //        return switch (ix) {
@@ -58,7 +57,7 @@ public class StaminaManager {
             if (isEnabledCache == 0) { // & User Disables Mod
                 staminaDebuffSwitch = false;
                 if (player.hasStatusEffect(StatusEffects.SLOWNESS)) { deactivateDebuff(); }
-                Stamina = 100;
+                stamina = 100;
             }
 
             if (player.isCreative() || player.isSpectator()) { // & User Switches Gamemodes
@@ -74,18 +73,18 @@ public class StaminaManager {
         if (staminaDeductionDelay == 0) {
             deductStamina(isSprinting, isJumping);
             staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY);
-            if (Stamina <= 25 && (isSprinting || isJumping) && getConfig(LOWSTAMINAPING) == 1) {
+            if (stamina <= 25 && (isSprinting || isJumping) && getConfig(LOWSTAMINAPING) == 1) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2);
             }
         } else { staminaDeductionDelay--; }
 
         if (staminaDebuffDelay == 0) {
-            if (Stamina <= 0 && !staminaDebuffSwitch) {
+            if (stamina <= 0 && !staminaDebuffSwitch) {
                 staminaDebuffSwitch = true;
 
                 activateDebuff();
             }
-            if (Stamina > 0 && staminaDebuffSwitch) {
+            if (stamina > 0 && staminaDebuffSwitch) {
                 staminaDebuffSwitch = false;
 
                 deactivateDebuff();
@@ -113,38 +112,38 @@ public class StaminaManager {
 
     private static void deductStamina(boolean isSprinting, boolean isJumping) {
         if (!isSprinting && !isJumping) { return; }
-        if (Stamina == 0 || Stamina < 0) { Stamina = 0; return; }
+        if (stamina == 0 || stamina < 0) { stamina = 0; return; }
 
-        if (isSprinting) { Stamina = Stamina - getConfig(SPRINTDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Sprint Deduct
+        if (isSprinting) { stamina = stamina - getConfig(SPRINTDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Sprint Deduct
 
-        if (isJumping) { Stamina = Stamina - getConfig(JUMPDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Jump Deduct
+        if (isJumping) { stamina = stamina - getConfig(JUMPDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Jump Deduct
     }
 
     private static void restoreStamina(boolean isSprinting, boolean isJumping, boolean isInWater) {
         if (isSprinting || isJumping) { return; }
         if (isInWater) { restoreStaminaAlternate(); return; }
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
-        if (Stamina == 100) { return; }
+        if (stamina == 100) { return; }
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
-        Stamina = Stamina + getConfig(STAMINARESTORATIONAMOUNT);
+        stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = getConfig(STAMINARESTORATIONDELAY);
-        if (Stamina > 100) {
-            Stamina = 100;
+        if (stamina > 100) {
+            stamina = 100;
         }
     }
 
     private static void restoreStaminaAlternate() {
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
-        if (Stamina == 100) { return; }
+        if (stamina == 100) { return; }
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
-        Stamina = Stamina + getConfig(STAMINARESTORATIONAMOUNT);
+        stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = (byte) (getConfig(STAMINARESTORATIONDELAY) + 2);
-        if (Stamina > 100) {
-            Stamina = 100;
+        if (stamina > 100) {
+            stamina = 100;
         }
     }
 

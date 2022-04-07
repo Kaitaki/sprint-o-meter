@@ -13,14 +13,16 @@ public class StaminaDebuff {
     private static boolean debuffActive;
     private static ServerPlayerEntity serverPlayerEntity;
 
-    private static final Identifier sprintDebuffIdentifier = new Identifier(MOD_ID, "sprintable");
+    private static final Identifier SPRINT_DEBUFF_IDENTIFIER = new Identifier(MOD_ID, "sprintable");
 
     private static short debuffDelay; // Debuff Apply Delay
     private static byte initApplied = 0; // First Time Apply
 
+    public static Identifier getSprintDebuffIdentifier() {return SPRINT_DEBUFF_IDENTIFIER;}
+
     public static void initDebuff() {
 
-        ServerPlayNetworking.registerGlobalReceiver(sprintDebuffIdentifier, (server, player, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(SPRINT_DEBUFF_IDENTIFIER, (server, player, handler, buf, responseSender) -> {
             debuffActive = buf.readBoolean();
 
 //            System.out.println(debuffActive);
