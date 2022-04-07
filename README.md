@@ -1,6 +1,6 @@
 
 # Sprint O' Meter
-<img src="https://media.forgecdn.net/avatars/522/347/637842996310733054.png" alt="drawing" height="128" width="128"/>
+<img src="https://raw.githubusercontent.com/PaperScorpio/sprint-o-meter/1.18.2/readme_icon.png" alt="icon" height="128" width="128"/>
 <br>
 <br>
 <img src="https://img.shields.io/badge/environment-both-4caf50?style=flat-square" alt="drawing" width="114" height="20"/>
