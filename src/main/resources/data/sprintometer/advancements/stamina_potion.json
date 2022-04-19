@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:nether/brew_potion",
+  "display": {
+
+    "title": {
+
+      "text": "10 Hour Energy"
+    },
+
+    "description": {
+
+      "text": "I don't think drinking that much is good.."
+
+    },
+
+    "icon": {
+
+      "item": "minecraft:sugar"
+
+    },
+
+    "frame": "challenge",
+
+    "show_toast": true,
+
+    "announce_to_chat": true,
+
+    "hidden": false
+
+  },
+
+  "criteria": {
+
+    "gainnormal": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": "sprintometer:stamina_gain"
+      }
+    },
+    "gainstrong": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": "sprintometer:stamina_gain_strong"
+      }
+    },
+    "gaininstantnormal": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": "sprintometer:stamina_instantgain"
+      }
+    },
+    "gaininstantstrong": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": "sprintometer:stamina_instantgain_strong"
+      }
+    }
+
+  }
+
+}

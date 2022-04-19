@@ -1,33 +1,51 @@
 package com.paperscp.sprintometer.client;
 
+import com.paperscp.sprintometer.effects.SprintStatusEffect;
+import com.paperscp.sprintometer.server.SprintOMeterServer;
 import com.paperscp.sprintometer.server.StaminaDebuff;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
+import java.util.Map;
+
 import static com.paperscp.sprintometer.SprintOMeter.client;
 import static com.paperscp.sprintometer.config.ConfiguratorOptions.*;
 import static com.paperscp.sprintometer.config.SprintOConfig.Configurator.getConfig;
+import static com.paperscp.sprintometer.server.SprintOMeterServer.sprintConfig;
 
 @Environment(EnvType.CLIENT)
 public class StaminaManager {
 
-    public static int stamina = 100;
-    public static boolean isJumpKeyPressed;
+    private int maxStamina = SprintOMeterServer.sprintConfig.maximumStamina;
+    private int stamina = maxStamina;
+    private int quarterStamina = (int) Math.round(maxStamina * 0.25);
 
-    private static byte cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay, isEnabledDelay = 0;
+    public static boolean isJumpKeyPressed = false;
+    private boolean jumped = false; // To make sure that stamina only gets deducted when the player jumps off the floor
+
+    private int cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay, isEnabledDelay = 0;
     private static boolean staminaDebuffSwitch = false;
-    private static byte isEnabledCache = 1;
 
-    private static final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
+    private int isEnabledCache = 1;
 
-//    public static byte temp(int ix) { // For Debug Menu in StaminaRenderer
+    ClientPlayerEntity player;
+    private boolean isInWater;
+    private boolean isSprinting;
+    private boolean isJumping;
+
+    private final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
+
+//    public  byte temp(int ix) { // For Debug Menu in StaminaRenderer
 //        return switch (ix) {
 //            case 1 -> i;
 //            case 2 -> i2;
@@ -40,15 +58,18 @@ public class StaminaManager {
 //        };
 //    }
 
-    public static void tick() {
+    public void tick() {
 
-        ClientPlayerEntity player = client.player;
+        player = client.player;
 
-        boolean isSprinting = player.isSprinting();
-        boolean isJumping = isJumpKeyPressed;
-        boolean isInWater = player.isSubmergedInWater();
+        isInWater = player.isSubmergedInWater();
+        isSprinting = player.isSprinting();
+        isJumping = isJumping(isJumpKeyPressed);
 
-        if (isStaminaIneligible(player)) {
+//        System.out.println(isJumping+ " | " + player.input.jumping);
+
+        if (isStaminaIneligible()) {
+
             if (isEnabledDelay == 0) { isEnabledCache = getConfig(ISENABLED); isEnabledDelay = 4; return; }
             isEnabledDelay--;
 
@@ -57,7 +78,7 @@ public class StaminaManager {
             if (isEnabledCache == 0) { // & User Disables Mod
                 staminaDebuffSwitch = false;
                 if (player.hasStatusEffect(StatusEffects.SLOWNESS)) { deactivateDebuff(); }
-                stamina = 100;
+                stamina = maxStamina;
             }
 
             if (player.isCreative() || player.isSpectator()) { // & User Switches Gamemodes
@@ -68,12 +89,12 @@ public class StaminaManager {
             return;
         }
 
-        restoreStamina(isSprinting, isJumping, isInWater);
+        restoreStamina();
 
         if (staminaDeductionDelay == 0) {
-            deductStamina(isSprinting, isJumping);
+            deductStamina();
             staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY);
-            if (stamina <= 25 && (isSprinting || isJumping) && getConfig(LOWSTAMINAPING) == 1) {
+            if (stamina <= quarterStamina && (isSprinting || isJumping) && sprintConfig.lowStaminaWarn) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2);
             }
         } else { staminaDeductionDelay--; }
@@ -92,68 +113,114 @@ public class StaminaManager {
             staminaDebuffDelay = 20;
         } else { staminaDebuffDelay--; }
 
+        if (stamina > maxStamina) { // Overflow check for StatusEffect sometimes going over max
+            stamina = maxStamina;
+        }
     }
 
-    private static void activateDebuff() {
+    private boolean isJumping(boolean isJumpingAccurate) {
+        if (getConfig(VERTICALSWIMDEDUCT) == 0) {
+            if (isInWater) {return false;}
+        }
+
+        if (player.verticalCollision) {jumped = false;}
+
+        return isJumpingAccurate && player.fallDistance == 0.0;
+    }
+
+    private void activateDebuff() {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeBoolean(true);
 
         ClientPlayNetworking.send(SPRINT_DEBUFF_IDENTIFIER, buf);
     }
 
-    private static void deactivateDebuff() {
+    private void deactivateDebuff() {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeBoolean(false);
 
         ClientPlayNetworking.send(SPRINT_DEBUFF_IDENTIFIER, buf);
     }
 
+    public int getStamina() {
+        return stamina;
+    }
+
+    public int getMaxStamina() {
+        return maxStamina;
+    }
+
+    public void addStamina(int i) {
+        stamina = stamina + i;
+    }
+
+    public void subtractStamina(int i) { stamina = stamina - i; }
+
     public static boolean isOutOfStamina() { return staminaDebuffSwitch; } // For Debuff in KeyboardInputMixin
 
-    private static void deductStamina(boolean isSprinting, boolean isJumping) {
-        if (!isSprinting && !isJumping) { return; }
+    public void refreshStamina() {
+        maxStamina = getConfig(MAXSTAMINA);
+        // stamina = maxStamina;
+        quarterStamina = (int) Math.round(maxStamina * 0.25);
+    }
+
+    private void deductStamina() {
         if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+        if (isRidingVehicle()) { return; }
+        if (hasStaminaGainEffect()) { return; }
+        if (!isSprinting && !isJumping) { return; }
 
         if (isSprinting) { stamina = stamina - getConfig(SPRINTDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Sprint Deduct
 
-        if (isJumping) { stamina = stamina - getConfig(JUMPDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Jump Deduct
+        if (isJumping && !jumped) { stamina = stamina - getConfig(JUMPDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); jumped = true;} // Jump Deduct
+
     }
 
-    private static void restoreStamina(boolean isSprinting, boolean isJumping, boolean isInWater) {
+    private void restoreStamina() {
+        if (stamina == maxStamina) { return; }
+
         if (isSprinting || isJumping) { return; }
         if (isInWater) { restoreStaminaAlternate(); return; }
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
-        if (stamina == 100) { return; }
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
         stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = getConfig(STAMINARESTORATIONDELAY);
-        if (stamina > 100) {
-            stamina = 100;
+        if (stamina > maxStamina) {
+            stamina = maxStamina;
         }
     }
 
-    private static void restoreStaminaAlternate() {
+    private void restoreStaminaAlternate() {
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
-        if (stamina == 100) { return; }
+        if (stamina == maxStamina) { return; }
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
         stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = (byte) (getConfig(STAMINARESTORATIONDELAY) + 2);
-        if (stamina > 100) {
-            stamina = 100;
+        if (stamina > maxStamina) {
+            stamina = maxStamina;
         }
     }
 
     // Util
-    public static boolean isStaminaIneligible(ClientPlayerEntity player) {
-        return player.isCreative() || player.isSpectator() || isRidingVehicle(player)
-                || getConfig(ISENABLED) == 0 || client.isPaused() || player.isDead();
+    public boolean isStaminaIneligible() {
+        return player.isCreative() || player.isSpectator() ||
+                getConfig(ISENABLED) == 0 || client.isPaused() || player.isDead();
     }
 
-    private static boolean isRidingVehicle(ClientPlayerEntity player) {
-        return player.getVehicle() != null;
+    private boolean isRidingVehicle() {
+        return player.getVehicle() != null && !(player.getVehicle() instanceof BoatEntity);
+    }
+
+    private boolean hasStaminaGainEffect() {
+        if (getConfig(DEDUCTWITHPOTIONEFFECT) == 1) { return false; }
+
+        Map<StatusEffect, StatusEffectInstance> hm = player.getActiveStatusEffects();
+
+        return hm.containsKey(SprintStatusEffect.STAMINA_GAIN) || hm.containsKey(SprintStatusEffect.STAMINA_GAIN_INSTANT);
     }
 }

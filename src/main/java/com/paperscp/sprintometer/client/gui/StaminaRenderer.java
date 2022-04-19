@@ -1,7 +1,7 @@
 package com.paperscp.sprintometer.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.paperscp.sprintometer.client.StaminaManager;
+import com.paperscp.sprintometer.SprintOMeter;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -11,15 +11,13 @@ import net.minecraft.util.Identifier;
 
 public class StaminaRenderer extends DrawableHelper {
 
-    private static final Identifier STAMINA_OVERLAY_ICON = new Identifier("minecraft", "textures/mob_effect/speed.png");
+    private static final Identifier STAMINA_BAR = new Identifier("sprintometer:textures/gui/stamina_bar.png");
     private final MinecraftClient client;
     public final StaminaHudManager staminaHudManager;
-    private byte tempCache;
 
     public StaminaRenderer(MinecraftClient client) {
         this.client = client;
         this.staminaHudManager = new StaminaHudManager();
-
     }
 
 //    private String temp(int i) { // For Stamina Renderer
@@ -49,22 +47,34 @@ public class StaminaRenderer extends DrawableHelper {
 //            temp = (short) (temp + 20);
 //        }
 
+        client.textRenderer.draw(stack,
+                String.valueOf(SprintOMeter.staminaManager.getStamina()),
+                scaledWidth - 9,
+                scaledHeight - 45,
+                0xFFFF00
+        );
+
+
+
         // Display
         if (SprintOMeterServer.sprintConfig.enableSprintOMeter && player != null && !player.isCreative() && !player.isSpectator()) {
 
-            if (tempCache == 0 && StaminaManager.stamina == 100) { return; }
+//            client.textRenderer.drawWithShadow(stack,
+//                    String.valueOf(staminaHudManager.getStaminaValue()),
+//                    scaledWidth - 115,
+//                    scaledHeight - staminaHudManager.getNumberCoords(),
+//                    staminaHudManager.getNumberColor()
+//            );
+//
+//            RenderSystem.setShaderTexture(0, STAMINA_OVERLAY_ICON);
+//                int staminaIconCoords = staminaHudManager.getIconCoords();
+//                drawTexture(stack, scaledWidth - 112, scaledHeight - staminaIconCoords, 0, 0, 18, 18, 18, 18);
+//            tempCache = (byte) staminaIconCoords;
 
-            client.textRenderer.drawWithShadow(stack,
-                    String.valueOf(staminaHudManager.getStaminaValue()),
-                    scaledWidth - 115,
-                    scaledHeight - staminaHudManager.getNumberCoords(),
-                    staminaHudManager.getNumberColor()
-            );
+            RenderSystem.setShaderTexture(0, STAMINA_BAR);
+            drawTexture(stack, scaledWidth - 91, scaledHeight - 32 + 5, 0, 0, 182, 3);
+            drawTexture(stack,scaledWidth - 91, scaledHeight - 32 + 5,0, 3, staminaHudManager.getBarCoords(), 3);
 
-            RenderSystem.setShaderTexture(0, STAMINA_OVERLAY_ICON);
-                int staminaIconCoords = staminaHudManager.getIconCoords();
-                drawTexture(stack, scaledWidth - 112, scaledHeight - staminaIconCoords, 0, 0, 18, 18, 18, 18);
-            tempCache = (byte) staminaIconCoords;
         }
 
     }
