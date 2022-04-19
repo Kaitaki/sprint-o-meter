@@ -1,11 +1,42 @@
 {
-  "text.autoconfig.sprintometer.title": "Sprint O' Meter Configuration",
+  "text.autoconfig.sprintometer.title": "Sprint O' Meter Configuration (Relog Required)",
+
+
+
+  "effect.sprintometer.stamina_gain": "Replenish",
+  "effect.sprintometer.stamina_gain_instant": "Instant Energy",
+
+  "item.minecraft.potion.effect.stamina_gain": "Potion of Replenishing",
+  "item.minecraft.splash_potion.effect.stamina_gain": "Splash Potion of Replenishing",
+  "item.minecraft.lingering_potion.effect.stamina_gain": "Lingering Potion of Replenishing",
+  "item.minecraft.tipped_arrow.effect.stamina_gain": "Arrow of Replenishing",
+
+  "item.minecraft.potion.effect.stamina_gain_strong": "Potion of Replenishing",
+  "item.minecraft.splash_potion.effect.stamina_gain_strong": "Splash Potion of Replenishing",
+  "item.minecraft.lingering_potion.effect.stamina_gain_strong": "Lingering Potion of Replenishing",
+  "item.minecraft.tipped_arrow.effect.stamina_gain_strong": "Arrow of Replenishing",
+
+
+  "item.minecraft.potion.effect.stamina_instantgain": "Potion of Energy",
+  "item.minecraft.splash_potion.effect.stamina_instantgain": "Splash Potion of Energy",
+  "item.minecraft.lingering_potion.effect.stamina_instantgain": "Lingering Potion of Energy",
+  "item.minecraft.tipped_arrow.effect.stamina_instantgain": "Arrow of Energy",
+
+  "item.minecraft.potion.effect.stamina_instantgain_strong": "Potion of Energy",
+  "item.minecraft.splash_potion.effect.stamina_instantgain_strong": "Splash Potion of Energy",
+  "item.minecraft.lingering_potion.effect.stamina_instantgain_strong": "Lingering Potion of Energy",
+  "item.minecraft.tipped_arrow.effect.stamina_instantgain_strong": "Arrow of Energy",
+
 
 
   "text.autoconfig.sprintometer.category.default": "Main Options",
   "text.autoconfig.sprintometer.category.amountConf": "Amount Options",
   "text.autoconfig.sprintometer.category.delayConf": "Delay Options",
+  "text.autoconfig.sprintometer.category.potionConf": "Potion Options",
+  "text.autoconfig.sprintometer.category.misc": "Misc Options",
 
+
+  "text.autoconfig.sprintometer.option.notice": "Changes apply after reloading the world.",
 
   "text.autoconfig.sprintometer.option.enableSprintOMeter": "Sprint O' Meter Enabled?",
   "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[0]": "§l|§r Disable or Enable Sprint O' Meter.",
@@ -17,15 +48,16 @@
   "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[2]":"§7§o(Default: true) §r| §8§nlowStaminaWarn (boolean)",
 
+
   "text.autoconfig.sprintometer.option.coolDownDelay": "Stamina Cooldown Delay (Ticks)",
-  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[0]": "§l|§r Delay between when the player stops.",
-  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[1]": "jumping and when it starts restoring",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[0]": "§l|§r Delay between when the player stops",
+  "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[1]": "moving and when it starts restoring.",
   "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[2]": " ",
   "text.autoconfig.sprintometer.option.coolDownDelay.@Tooltip[3]":"§7§o(Default: 25) §r| §8§ncoolDownDelay (int)",
 
   "text.autoconfig.sprintometer.option.staminaDeductionDelay": "Stamina Deduction Delay (Ticks)",
-  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[0]": "§l|§r How slow the stamina drains ",
-  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[1]": "while sprinting. (Also controls warning ping rate.)",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[0]": "§l|§r How slow the stamina drains while moving.",
+  "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[1]": "(Also controls warning ping rate.)",
   "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[2]": " ",
   "text.autoconfig.sprintometer.option.staminaDeductionDelay.@Tooltip[3]": "§7§o(Default: 3) §r| §8§nstaminaDeductionDelay (int)",
 
@@ -33,6 +65,12 @@
   "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[0]": "§l|§r How slow the stamina restores.",
   "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.staminaRestorationDelay.@Tooltip[2]": "§7§o(Default: 0) §r| §8§nstaminaRestorationDelay (int)",
+
+
+  "text.autoconfig.sprintometer.option.maximumStamina": "Max Stamina",
+  "text.autoconfig.sprintometer.option.maximumStamina.@Tooltip[0]": "§l|§r The maximum amount of stamina.",
+  "text.autoconfig.sprintometer.option.maximumStamina.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.maximumStamina.@Tooltip[2]": "§7§o(Default: 100) §r| §8§nmaximumStamina (int)",
 
   "text.autoconfig.sprintometer.option.sprintDeductionAmount": "Sprint Deduction Amount",
   "text.autoconfig.sprintometer.option.sprintDeductionAmount.@Tooltip[0]": "§l|§r How much the sprinting drains.",
@@ -47,6 +85,41 @@
   "text.autoconfig.sprintometer.option.staminaRestorationAmount": "Stamina Restoration Amount",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[0]": "§l|§r How much stamina is restored every tick.",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[1]": " ",
-  "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nstaminaRestorationAmount (int)"
+  "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nstaminaRestorationAmount (int)",
 
+
+  "text.autoconfig.sprintometer.option.enablePotions": "Enable Stamina Potions?",
+  "text.autoconfig.sprintometer.option.enablePotions.@Tooltip[0]": "§l|§r Should the Stamina Potions exist?",
+  "text.autoconfig.sprintometer.option.enablePotions.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enablePotions.@Tooltip[2]": "§7§o(Default: true) §r| §8§nenablePotions (boolean)",
+
+  "text.autoconfig.sprintometer.option.staminaGainPotionDuration": "Replenish Potion Duration (Ticks)",
+  "text.autoconfig.sprintometer.option.staminaGainPotionDuration.@Tooltip[0]": "§l|§r How long the Replenish potion should last.",
+  "text.autoconfig.sprintometer.option.staminaGainPotionDuration.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaGainPotionDuration.@Tooltip[2]": "§7§o(Default: 600) §r| §8§nstaminaGainPotionDuration (int)",
+
+  "text.autoconfig.sprintometer.option.staminaGainBaseAmplifier": "Replenish Potion Base Amplifier",
+  "text.autoconfig.sprintometer.option.staminaGainBaseAmplifier.@Tooltip[0]": "§l|§r How much Replenish I replenishes. (Auto Scaled for II)",
+  "text.autoconfig.sprintometer.option.staminaGainBaseAmplifier.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaGainBaseAmplifier.@Tooltip[2]": "§7§o(Default: 2) §r| §8§nstaminaGainBaseAmplifier (int)",
+
+  "text.autoconfig.sprintometer.option.staminaGainInstantBaseAmplifier": "Energy Potion Base Amplifier",
+  "text.autoconfig.sprintometer.option.staminaGainInstantBaseAmplifier.@Tooltip[0]": "§l|§r How much Instant Energy replenishes. (Auto Scaled for II)",
+  "text.autoconfig.sprintometer.option.staminaGainInstantBaseAmplifier.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaGainInstantBaseAmplifier.@Tooltip[2]": "§7§o(Default: 10) §r| §8§nstaminaGainInstantBaseAmplifier (int)",
+
+  "text.autoconfig.sprintometer.option.staminaGainEffectDelay": "Replenish Potion Delay (Ticks)",
+  "text.autoconfig.sprintometer.option.staminaGainEffectDelay.@Tooltip[0]": "§l|§r How slow Replenish replenishes.",
+  "text.autoconfig.sprintometer.option.staminaGainEffectDelay.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.staminaGainEffectDelay.@Tooltip[2]": "§7§o(Default: 10) §r| §8§nstaminaGainEffectDelay (int)",
+
+  "text.autoconfig.sprintometer.option.verticalSwimDeduct": "Deduct Stamina While Swimming Vertically?",
+  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[0]": "§l|§r Ex. Using the jump button underwater.",
+  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[2]": "§7§o(Default: false) §r| §8§nverticalSwimDeduct (boolean)",
+
+  "text.autoconfig.sprintometer.option.deductWithPotionEffect": "Deduct Stamina While Replenish Active?",
+  "text.autoconfig.sprintometer.option.deductWithPotionEffect.@Tooltip[0]": "§l|§r Makes the Stamina more accurate but has visual glitching.",
+  "text.autoconfig.sprintometer.option.deductWithPotionEffect.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.deductWithPotionEffect.@Tooltip[2]": "§7§o(Default: false) §r| §8§ndeductWithPotionEffect (boolean)"
 }

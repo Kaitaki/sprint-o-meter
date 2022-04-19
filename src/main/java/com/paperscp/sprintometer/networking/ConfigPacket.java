@@ -9,40 +9,56 @@ import net.minecraft.util.Identifier;
 import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 
 public class ConfigPacket {
-    private short i = 0; // ByteArray Increment
+    private int arrayPos = 0;
 
-    public static final Identifier configValuesIdentifier = new Identifier(MOD_ID,"config-values");
+    public static final Identifier CONFIG_VALUES_IDENTIFIER = new Identifier(MOD_ID,"config-values");
 
-    private final byte[] configValues;
-    PacketByteBuf buf = PacketByteBufs.create();
+    private final int[] configValues;
+    private final PacketByteBuf buf = PacketByteBufs.create();
 
     private final ServerPlayerEntity playerEntity;
 
-    public ConfigPacket(ServerPlayerEntity playerEntity, int amount) {
+    public ConfigPacket(ServerPlayerEntity playerEntity, int amount, boolean includeLength) {
         this.playerEntity = playerEntity;
-        this.configValues = new byte[amount];
+
+        if (includeLength) {
+            this.configValues = new int[amount + 1];
+
+            this.configValues[0] = configValues.length - 1;
+            arrayPos++;
+
+            return;
+        }
+
+        this.configValues = new int[amount];
     }
 
     public void addConfig(int configOption) {
-        configValues[i] = (byte) configOption;
-        i++;
+        configValues[arrayPos] = configOption;
+        arrayPos++;
 
 //        configValues[i] = 1;
 //        i++;
     }
 
     public void addConfig(boolean configOption) {
-        if (configOption) { configValues[i] = 1; }
-        else { configValues[i] = 0; }
-        i++;
+        if (configOption) { configValues[arrayPos] = 1; }
+        else { configValues[arrayPos] = 0; }
+        arrayPos++;
 //        configValues[i] = 2;
 //        i++;
     }
 
     public void sendPacket() {
-        buf.writeByteArray(configValues);
+        buf.writeIntArray(configValues);
 
-        ServerPlayNetworking.send(playerEntity, configValuesIdentifier, buf);
+        ServerPlayNetworking.send(playerEntity, CONFIG_VALUES_IDENTIFIER, buf);
+    }
+
+    public void sendPacket(Identifier customIdentifier) {
+        buf.writeIntArray(configValues);
+
+        ServerPlayNetworking.send(playerEntity, customIdentifier, buf);
     }
 
 //    public static byte[] decodePacket(byte[] configValues, int configAmount) {
