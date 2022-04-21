@@ -1,4 +1,4 @@
-package com.paperscp.sprintometer.networking;
+package com.paperscp.sprintometer.networking.config;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static com.paperscp.sprintometer.SprintOMeter.client;
 import static com.paperscp.sprintometer.config.ConfiguratorOptions.*;
-import static com.paperscp.sprintometer.config.SprintOConfig.Configurator.getConfig;
+import static com.paperscp.sprintometer.config.SprintConfigurator.getConfig;
 import static com.paperscp.sprintometer.server.SprintOMeterServer.sprintConfig;
 
 @Environment(EnvType.CLIENT)
@@ -150,17 +150,22 @@ public class StaminaManager {
         return maxStamina;
     }
 
-    public void addStamina(int i) {
-        stamina = stamina + i;
-    }
+    public void applyStatusEffect(int id, int amplifier) {
+        switch (id) {
+            case 1: // Stamina+
+                if (stamina >= maxStamina) { return; }
+                stamina += Math.abs(amplifier); // Abs needed just in case integer overflow happens
 
-    public void subtractStamina(int i) { stamina = stamina - i; }
+                break;
+            case 2: // Stamina- TODO: Add stamina subtract potions
+                break;
+        }
+    }
 
     public static boolean isOutOfStamina() { return staminaDebuffSwitch; } // For Debuff in KeyboardInputMixin
 
     public void refreshStamina() {
         maxStamina = getConfig(MAXSTAMINA);
-        // stamina = maxStamina;
         quarterStamina = (int) Math.round(maxStamina * 0.25);
     }
 
@@ -186,7 +191,7 @@ public class StaminaManager {
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
-        stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
+        stamina += getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = getConfig(STAMINARESTORATIONDELAY);
         if (stamina > maxStamina) {
             stamina = maxStamina;
@@ -199,7 +204,7 @@ public class StaminaManager {
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
-        stamina = stamina + getConfig(STAMINARESTORATIONAMOUNT);
+        stamina += getConfig(STAMINARESTORATIONAMOUNT);
         staminaRestorationDelay = (byte) (getConfig(STAMINARESTORATIONDELAY) + 2);
         if (stamina > maxStamina) {
             stamina = maxStamina;
