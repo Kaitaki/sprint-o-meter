@@ -94,7 +94,7 @@ public class StaminaManager {
         if (staminaDeductionDelay == 0) {
             deductStamina();
             staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY);
-            if (stamina <= quarterStamina && (isSprinting || isJumping) && sprintConfig.lowStaminaWarn) {
+            if (stamina <= quarterStamina && (isSprinting || isJumping) && sprintConfig.enableLowStaminaWarn) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2);
             }
         } else { staminaDeductionDelay--; }
@@ -120,10 +120,10 @@ public class StaminaManager {
 
     private boolean isJumping(boolean isJumpingAccurate) {
         if (getConfig(VERTICALSWIMDEDUCT) == 0) {
-            if (isInWater) {return false;}
+            if (isInWater) { return false; }
         }
 
-        if (player.verticalCollision) {jumped = false;}
+        if (player.verticalCollision) { jumped = false;}
 
         return isJumpingAccurate && player.fallDistance == 0.0;
     }
@@ -176,16 +176,28 @@ public class StaminaManager {
         if (hasStaminaGainEffect()) { return; }
         if (!isSprinting && !isJumping) { return; }
 
-        if (isSprinting) { stamina = stamina - getConfig(SPRINTDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); } // Sprint Deduct
+        if (isSprinting) {
+            int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
 
-        if (isJumping && !jumped) { stamina = stamina - getConfig(JUMPDEDUCTIONAMOUNT); cooldownDelay = getConfig(COOLDOWNDELAY); jumped = true;} // Jump Deduct
+            stamina = stamina - sprintDeductAmt;
+            if (sprintDeductAmt == 0) { return; }
+            cooldownDelay = getConfig(COOLDOWNDELAY);
+        } // Sprint Deduct
+
+        if (isJumping && !jumped) {
+            int jumpDeductAmt = getConfig(JUMPDEDUCTIONAMOUNT);
+
+            stamina = stamina - jumpDeductAmt;
+            jumped = true;
+            if (jumpDeductAmt == 0) { return; }
+            cooldownDelay = getConfig(COOLDOWNDELAY);
+        } // Jump Deduct
 
     }
 
     private void restoreStamina() {
         if (stamina == maxStamina) { return; }
 
-        if (isSprinting || isJumping) { return; }
         if (isInWater) { restoreStaminaAlternate(); return; }
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
 

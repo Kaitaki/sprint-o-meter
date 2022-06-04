@@ -22,9 +22,11 @@ public class SprintOConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip(count = 3)
     public boolean enableSprintOMeter = true;
 
+    @ConfigEntry.Gui.Tooltip(count = 3)
+    public boolean enableJumpDebuff = true;
 
     @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean lowStaminaWarn = true; // Not sent to client (Client Sided Config)
+    public boolean enableLowStaminaWarn = true; // Not sent to client (Client Sided Config)
 
 //    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
 //    @ConfigEntry.Gui.Tooltip(count = 3)
@@ -109,7 +111,7 @@ public class SprintOConfig implements ConfigData {
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean verticalSwimDeduct = false;
+    public boolean enableVerticalSwimDeduct = false;
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip(count = 3)
@@ -147,8 +149,9 @@ public class SprintOConfig implements ConfigData {
         cp.addConfig(sprintConfig.staminaRestorationAmount); // 5
         cp.addConfig(sprintConfig.enableSprintOMeter); // 6
         cp.addConfig(sprintConfig.maximumStamina); // 7
-        cp.addConfig(sprintConfig.verticalSwimDeduct); // 8
+        cp.addConfig(sprintConfig.enableVerticalSwimDeduct); // 8
         cp.addConfig(sprintConfig.deductWithPotionEffect); // 9
+        cp.addConfig(sprintConfig.enableJumpDebuff); // 10
 
         cp.sendPacket();
 

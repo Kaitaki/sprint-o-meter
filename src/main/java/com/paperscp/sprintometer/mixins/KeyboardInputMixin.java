@@ -1,6 +1,8 @@
 package com.paperscp.sprintometer.mixins;
 
 import com.paperscp.sprintometer.client.StaminaManager;
+import com.paperscp.sprintometer.config.ConfiguratorOptions;
+import com.paperscp.sprintometer.config.SprintConfigurator;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
@@ -27,6 +29,7 @@ public class KeyboardInputMixin extends Input {
     public void tick(boolean slowDown, CallbackInfo ci) {
         StaminaManager.isJumpKeyPressed = this.settings.keyJump.isPressed();
 
+        if (SprintConfigurator.getConfig(ConfiguratorOptions.JUMPDEBUFF) == 0) { return; }
         this.jumping = !StaminaManager.isOutOfStamina() && this.settings.keyJump.isPressed();
     }
 
