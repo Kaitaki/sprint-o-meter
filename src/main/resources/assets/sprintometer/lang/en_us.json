@@ -43,10 +43,15 @@
   "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.enableSprintOMeter.@Tooltip[2]":"§7§o(Default: true) §r| §8§nenableSprintOMeter (boolean)",
 
-  "text.autoconfig.sprintometer.option.lowStaminaWarn": "Low Stamina Alert Enabled?",
-  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[0]": "§l|§r Disable or the warning ping.",
-  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[1]": " ",
-  "text.autoconfig.sprintometer.option.lowStaminaWarn.@Tooltip[2]":"§7§o(Default: true) §r| §8§nlowStaminaWarn (boolean)",
+  "text.autoconfig.sprintometer.option.enableJumpDebuff": "Enable Jump Debuff?",
+  "text.autoconfig.sprintometer.option.enableJumpDebuff.@Tooltip[0]": "§l|§r Disable jumping when you run out of stamina.",
+  "text.autoconfig.sprintometer.option.enableJumpDebuff.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enableJumpDebuff.@Tooltip[2]":"§7§o(Default: true) §r| §8§nenableJumpDebuff (boolean)",
+
+  "text.autoconfig.sprintometer.option.enableLowStaminaWarn": "Low Stamina Alert Enabled?",
+  "text.autoconfig.sprintometer.option.enableLowStaminaWarn.@Tooltip[0]": "§l|§r Disable or the warning ping.",
+  "text.autoconfig.sprintometer.option.enableLowStaminaWarn.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enableLowStaminaWarn.@Tooltip[2]":"§7§o(Default: true) §r| §8§nlowStaminaWarn (boolean)",
 
 
   "text.autoconfig.sprintometer.option.coolDownDelay": "Stamina Cooldown Delay (Ticks)",
@@ -113,10 +118,10 @@
   "text.autoconfig.sprintometer.option.staminaGainEffectDelay.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.staminaGainEffectDelay.@Tooltip[2]": "§7§o(Default: 10) §r| §8§nstaminaGainEffectDelay (int)",
 
-  "text.autoconfig.sprintometer.option.verticalSwimDeduct": "Deduct Stamina While Swimming Vertically?",
-  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[0]": "§l|§r Ex. Using the jump button underwater.",
-  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[1]": " ",
-  "text.autoconfig.sprintometer.option.verticalSwimDeduct.@Tooltip[2]": "§7§o(Default: false) §r| §8§nverticalSwimDeduct (boolean)",
+  "text.autoconfig.sprintometer.option.enableVerticalSwimDeduct": "Deduct Stamina While Swimming Vertically?",
+  "text.autoconfig.sprintometer.option.enableVerticalSwimDeduct.@Tooltip[0]": "§l|§r Ex. Using the jump button underwater.",
+  "text.autoconfig.sprintometer.option.enableVerticalSwimDeduct.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enableVerticalSwimDeduct.@Tooltip[2]": "§7§o(Default: false) §r| §8§nverticalSwimDeduct (boolean)",
 
   "text.autoconfig.sprintometer.option.deductWithPotionEffect": "Deduct Stamina While Replenish Active?",
   "text.autoconfig.sprintometer.option.deductWithPotionEffect.@Tooltip[0]": "§l|§r Makes the Stamina more accurate but has visual glitching.",

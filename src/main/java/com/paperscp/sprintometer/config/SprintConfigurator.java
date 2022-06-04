@@ -18,7 +18,7 @@ public class SprintConfigurator {
         // Server Packet Array
         private static int[] configArray;
 
-        public static final short configAmount = 10;
+        public static final short configAmount = 11;
 
         public static int getConfig(ConfiguratorOptions configOption) {
             if (configArray == null) {return 0;} // Failsafe, 0 until config is loaded/sent
@@ -44,6 +44,8 @@ public class SprintConfigurator {
                     return configArray[8];
                 case DEDUCTWITHPOTIONEFFECT:
                     return configArray[9];
+                case JUMPDEBUFF:
+                    return configArray[10];
 
                 default:
                     SprintOMeterServer.logger.fatal("Something happened while trying to get config values!");
