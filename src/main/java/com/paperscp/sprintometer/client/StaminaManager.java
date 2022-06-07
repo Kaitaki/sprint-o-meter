@@ -180,8 +180,9 @@ public class StaminaManager {
             int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
 
             stamina = stamina - sprintDeductAmt;
-            if (sprintDeductAmt == 0) { return; }
-            cooldownDelay = getConfig(COOLDOWNDELAY);
+            if (sprintDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
         } // Sprint Deduct
 
         if (isJumping && !jumped) {
@@ -189,8 +190,9 @@ public class StaminaManager {
 
             stamina = stamina - jumpDeductAmt;
             jumped = true;
-            if (jumpDeductAmt == 0) { return; }
-            cooldownDelay = getConfig(COOLDOWNDELAY);
+            if (jumpDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
         } // Jump Deduct
 
     }
