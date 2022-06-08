@@ -1,5 +1,6 @@
 package com.paperscp.sprintometer.client;
 
+import com.paperscp.sprintometer.config.SprintConfigurator;
 import com.paperscp.sprintometer.effects.SprintStatusEffect;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import com.paperscp.sprintometer.server.StaminaDebuff;
@@ -33,10 +34,12 @@ public class StaminaManager {
     public static boolean isJumpKeyPressed = false;
     private boolean jumped = false; // To make sure that stamina only gets deducted when the player jumps off the floor
 
-    private int cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay, isEnabledDelay = 0;
+    private int cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay = 0;
     private static boolean staminaDebuffSwitch = false;
 
-    private int isEnabledCache = 1;
+    private boolean configChecked;
+    private int isEnabled, isSaturationEnabled = 1;
+    private int deductDelayCalc, prevSaturation; // For stamina deduction based on saturation
 
     ClientPlayerEntity player;
     private boolean isInWater;
@@ -68,18 +71,28 @@ public class StaminaManager {
 
 //        System.out.println(isJumping+ " | " + player.input.jumping);
 
+        if (!configChecked && !SprintConfigurator.isConfigNull()) {
+            isEnabled = getConfig(ISENABLED);
+            isSaturationEnabled = getConfig(ENABLESATURATION);
+
+            configChecked = true;
+        }
+
         if (isStaminaIneligible()) {
 
-            if (isEnabledDelay == 0) { isEnabledCache = getConfig(ISENABLED); isEnabledDelay = 4; return; }
-            isEnabledDelay--;
+//            if (isEnabledDelay == 0) {
+//                isEnabledCache = getConfig(ISENABLED);
+//                isEnabledDelay = 4;
+//                return;
+//            } isEnabledDelay--;
 
             if (!staminaDebuffSwitch) { return; } // If Debuff Active..
 
-            if (isEnabledCache == 0) { // & User Disables Mod
-                staminaDebuffSwitch = false;
-                if (player.hasStatusEffect(StatusEffects.SLOWNESS)) { deactivateDebuff(); }
-                stamina = maxStamina;
-            }
+//            if (isEnabledCache == 0) { // & User Disables Mod
+//                staminaDebuffSwitch = false;
+//                if (player.hasStatusEffect(StatusEffects.SLOWNESS)) { deactivateDebuff(); }
+//                stamina = maxStamina;
+//            }
 
             if (player.isCreative() || player.isSpectator()) { // & User Switches Gamemodes
                 staminaDebuffSwitch = false;
@@ -93,7 +106,20 @@ public class StaminaManager {
 
         if (staminaDeductionDelay == 0) {
             deductStamina();
-            staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY);
+
+            if (isSaturationEnabled == 1) {
+                float saturation = player.getHungerManager().getSaturationLevel();
+
+                if (saturation != prevSaturation) {
+                    staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY);
+
+                    deductDelayCalc = Math.round((staminaDeductionDelay * (saturation / (float) getConfig(SATURATIONMOD))) + staminaDeductionDelay);
+                    prevSaturation = (int) saturation;
+                }
+
+                staminaDeductionDelay = deductDelayCalc;
+            } else { staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY); }
+
             if (stamina <= quarterStamina && (isSprinting || isJumping) && sprintConfig.enableLowStaminaWarn) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2);
             }
@@ -170,8 +196,6 @@ public class StaminaManager {
     }
 
     private void deductStamina() {
-        if (stamina == 0 || stamina < 0) { stamina = 0; return; }
-
         if (isRidingVehicle()) { return; }
         if (hasStaminaGainEffect()) { return; }
         if (!isSprinting && !isJumping) { return; }
@@ -179,20 +203,26 @@ public class StaminaManager {
         if (isSprinting) {
             int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
 
-            stamina = stamina - sprintDeductAmt;
             if (sprintDeductAmt != 0) {
                 cooldownDelay = getConfig(COOLDOWNDELAY);
             }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+            stamina = stamina - sprintDeductAmt;
         } // Sprint Deduct
 
         if (isJumping && !jumped) {
             int jumpDeductAmt = getConfig(JUMPDEDUCTIONAMOUNT);
 
-            stamina = stamina - jumpDeductAmt;
             jumped = true;
             if (jumpDeductAmt != 0) {
                 cooldownDelay = getConfig(COOLDOWNDELAY);
             }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+            stamina = stamina - jumpDeductAmt;
         } // Jump Deduct
 
     }
@@ -214,12 +244,11 @@ public class StaminaManager {
 
     private void restoreStaminaAlternate() {
         if (cooldownDelay != 0) { cooldownDelay--; return; } // Cooldown Delay
-        if (stamina == maxStamina) { return; }
 
         if (staminaRestorationDelay != 0) { staminaRestorationDelay--; return; } // Stamina Restoration Delay
 
         stamina += getConfig(STAMINARESTORATIONAMOUNT);
-        staminaRestorationDelay = (byte) (getConfig(STAMINARESTORATIONDELAY) + 2);
+        staminaRestorationDelay = getConfig(STAMINARESTORATIONDELAY) + 2;
         if (stamina > maxStamina) {
             stamina = maxStamina;
         }
@@ -228,7 +257,7 @@ public class StaminaManager {
     // Util
     public boolean isStaminaIneligible() {
         return player.isCreative() || player.isSpectator() ||
-                getConfig(ISENABLED) == 0 || client.isPaused() || player.isDead();
+                isEnabled == 0 || client.isPaused() || player.isDead();
     }
 
     private boolean isRidingVehicle() {
@@ -238,8 +267,8 @@ public class StaminaManager {
     private boolean hasStaminaGainEffect() {
         if (getConfig(DEDUCTWITHPOTIONEFFECT) == 1) { return false; }
 
-        Map<StatusEffect, StatusEffectInstance> hm = player.getActiveStatusEffects();
+        Map<StatusEffect, StatusEffectInstance> m = player.getActiveStatusEffects();
 
-        return hm.containsKey(SprintStatusEffect.STAMINA_GAIN) || hm.containsKey(SprintStatusEffect.STAMINA_GAIN_INSTANT);
+        return m.containsKey(SprintStatusEffect.STAMINA_GAIN) || m.containsKey(SprintStatusEffect.STAMINA_GAIN_INSTANT);
     }
 }
