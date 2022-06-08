@@ -48,6 +48,17 @@
   "text.autoconfig.sprintometer.option.enableJumpDebuff.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.enableJumpDebuff.@Tooltip[2]":"§7§o(Default: true) §r| §8§nenableJumpDebuff (boolean)",
 
+  "text.autoconfig.sprintometer.option.enableSaturationDependency": "Enable Saturation Dependency?",
+  "text.autoconfig.sprintometer.option.enableSaturationDependency.@Tooltip[0]": "§l|§r Is the amount of stamina drained based on saturation?",
+  "text.autoconfig.sprintometer.option.enableSaturationDependency.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.enableSaturationDependency.@Tooltip[2]":"§7§o(Default: false) §r| §8§nenableSaturationDependency (boolean)",
+
+  "text.autoconfig.sprintometer.option.saturationDependencyModifier": "Saturation Dependency Modifier",
+  "text.autoconfig.sprintometer.option.saturationDependencyModifier.@Tooltip[0]": "§l|§r Controls how much saturation affects the stamina drain rate.",
+  "text.autoconfig.sprintometer.option.saturationDependencyModifier.@Tooltip[1]": "The lower the value, the more impact saturation has (and vice versa).",
+  "text.autoconfig.sprintometer.option.saturationDependencyModifier.@Tooltip[2]": " ",
+  "text.autoconfig.sprintometer.option.saturationDependencyModifier.@Tooltip[3]":"§7§o(Default: 15) §r| §8§nsaturationDependencyModifier (int)",
+
   "text.autoconfig.sprintometer.option.enableLowStaminaWarn": "Low Stamina Alert Enabled?",
   "text.autoconfig.sprintometer.option.enableLowStaminaWarn.@Tooltip[0]": "§l|§r Disable or the warning ping.",
   "text.autoconfig.sprintometer.option.enableLowStaminaWarn.@Tooltip[1]": " ",

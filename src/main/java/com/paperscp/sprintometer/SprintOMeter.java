@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 
-// TODO: Difficulty System + Saturation Dependency
+// TODO: Difficulty System
 
 @Environment(EnvType.CLIENT)
 public class SprintOMeter implements ClientModInitializer {

@@ -26,6 +26,13 @@ public class SprintOConfig implements ConfigData {
     public boolean enableJumpDebuff = true;
 
     @ConfigEntry.Gui.Tooltip(count = 3)
+    public boolean enableSaturationDependency = false;
+
+    @ConfigEntry.Gui.Tooltip(count = 4)
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
+    public int saturationDependencyModifier = 15;
+
+    @ConfigEntry.Gui.Tooltip(count = 3)
     public boolean enableLowStaminaWarn = true; // Not sent to client (Client Sided Config)
 
 //    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
@@ -115,7 +122,7 @@ public class SprintOConfig implements ConfigData {
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean deductWithPotionEffect = true;
+    public boolean deductWithPotionEffect = false;
 
     //--
 
@@ -152,6 +159,8 @@ public class SprintOConfig implements ConfigData {
         cp.addConfig(sprintConfig.enableVerticalSwimDeduct); // 8
         cp.addConfig(sprintConfig.deductWithPotionEffect); // 9
         cp.addConfig(sprintConfig.enableJumpDebuff); // 10
+        cp.addConfig(sprintConfig.enableSaturationDependency); // 11
+        cp.addConfig(sprintConfig.saturationDependencyModifier); // 12
 
         cp.sendPacket();
 
