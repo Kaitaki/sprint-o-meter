@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 // TODO: Difficulty System
@@ -38,10 +38,11 @@ public class SprintOMeter implements ClientModInitializer {
 
     }
 
+
     // Util //
 
     public static void displayChatMessage(String message, Formatting formatting) {
-        client.inGameHud.getChatHud().addMessage(new LiteralText("[Sprint O' Meter]: " + message).formatted(formatting));
+        client.inGameHud.getChatHud().addMessage(Text.literal("[Sprint O' Meter]: " + message).formatted(formatting));
     }
 
 }

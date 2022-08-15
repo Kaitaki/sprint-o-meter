@@ -4,7 +4,7 @@ import com.paperscp.sprintometer.SprintOMeter;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
@@ -92,15 +92,15 @@ public class SprintConfigurator {
 
             if (!unsyncedConfig.isEmpty()) {
 
-                client.inGameHud.getChatHud().addMessage(new LiteralText
-                        ("[Sprint O' Meter]: Sprint O' Meter can't automatically change the following config value(s) to match the server, ")
+                client.inGameHud.getChatHud().addMessage(Text.literal(
+                        "[Sprint O' Meter]: Sprint O' Meter can't automatically change the following config value(s) to match the server, ")
                         .formatted(Formatting.YELLOW)
-                            .append(new LiteralText(Arrays.toString(unsyncedConfig.toArray()))
+                            .append(Text.literal(Arrays.toString(unsyncedConfig.toArray()))
                                     .formatted(Formatting.GREEN)
                 ));
 
                 client.inGameHud.getChatHud().addMessage(
-                        new LiteralText("Please make sure the value(s) match the server. Unexpected things may occur if not fixed.")
+                        Text.literal("Please make sure the value(s) match the server. Unexpected things may occur if not fixed.")
                                 .formatted(Formatting.LIGHT_PURPLE)
                 );
 
