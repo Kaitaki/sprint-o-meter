@@ -1,7 +1,6 @@
 package com.paperscp.sprintometer.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.paperscp.sprintometer.SprintOMeter;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -47,12 +46,12 @@ public class StaminaRenderer extends DrawableHelper {
 //            temp = (short) (temp + 20);
 //        }
 
-        client.textRenderer.draw(stack,
-                String.valueOf(SprintOMeter.staminaManager.getStamina()),
-                scaledWidth - 9,
-                scaledHeight - 45,
-                0xFFFF00
-        );
+//        client.textRenderer.draw(stack,
+//                String.valueOf(SprintOMeter.staminaManager.getStamina()),
+//                scaledWidth - 9,
+//                scaledHeight - 45,
+//                0xFFFF00
+//        );
 
 
 

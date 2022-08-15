@@ -27,10 +27,10 @@ public class KeyboardInputMixin extends Input {
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void tick(boolean slowDown, CallbackInfo ci) {
-        StaminaManager.isJumpKeyPressed = this.settings.keyJump.isPressed();
+        StaminaManager.isJumpKeyPressed = this.settings.jumpKey.isPressed();
 
         if (SprintConfigurator.getConfig(ConfiguratorOptions.JUMPDEBUFF) == 0) { return; }
-        this.jumping = !StaminaManager.isOutOfStamina() && this.settings.keyJump.isPressed();
+        this.jumping = !StaminaManager.isOutOfStamina() && this.settings.jumpKey.isPressed();
     }
 
 }
