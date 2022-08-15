@@ -122,7 +122,7 @@ public class SprintOConfig implements ConfigData {
 
     @ConfigEntry.Category("misc")
     @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean deductWithPotionEffect = false;
+    public boolean deductWithPotionEffect = true;
 
     //--
 
