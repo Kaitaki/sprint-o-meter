@@ -7,16 +7,18 @@
 
 [Licensed under CC BY-NC 4.0](https://github.com/PaperScorpio/sprint-o-meter/blob/1.18.1/LICENSE)
 
-[Participant in the dechmodcontest](https://www.dechmodcontest.com)
+Was a participant in the dechmodcontest
 
 
 "A extensively customizable *~~and cursed~~* stamina system."
 ## Features
 
- - Adds a shiny new stamina meter next to your hotbar (It autohides too!)
+ - Adds a shiny new stamina bar under your EXP bar!
  - Slows you down and disables jumping when you hit 0 stamina!
+ - Your saturation can affect how much it deducts! (can be disabled)
  - Prevents swimming (sprinting underwater) with 0 stamina! *(~~Swimming was too OP anyways..~~)*
  - Stamina regenerates slower under water!
+ - Adds stamina related potion buffs! (can also be disabled)
  - *Extensively* Customizable (Accessible through [Mod Menu](https://modrinth.com/mod/modmenu)) - Ranging from <u>*Cooldown*</u> to <u>*Deduction Speed*</u> to <u>*Decrement Amount*</u>
  - ***~~Fun Cursedness!~~***
 
