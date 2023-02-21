@@ -1,11 +1,13 @@
 package com.paperscp.sprintometer.server;
 
+import com.paperscp.sprintometer.config.SprintConfigurator;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import static com.paperscp.sprintometer.config.SprintConfigurator.getConfig;
 import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 
 public class StaminaDebuff {
@@ -42,6 +44,7 @@ public class StaminaDebuff {
 //                serverPlayerEntity.getEntityWorld().getDifficulty()
 
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 66, 0));
+                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 66, 0));
 
                 debuffDelay = 0; initApplied = 1;
             }

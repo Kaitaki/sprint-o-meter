@@ -98,6 +98,11 @@
   "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§njumpDeductionAmount (int)",
 
+  "text.autoconfig.sprintometer.option.swingDeductionAmount": "Swing Deduction Amount",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[0]": "§l|§r How much the swinging drains.",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nswingDeductionAmount (int)",
+
   "text.autoconfig.sprintometer.option.staminaRestorationAmount": "Stamina Restoration Amount",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[0]": "§l|§r How much stamina is restored every tick.",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[1]": " ",

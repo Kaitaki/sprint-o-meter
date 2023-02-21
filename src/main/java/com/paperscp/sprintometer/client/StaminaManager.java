@@ -45,6 +45,7 @@ public class StaminaManager {
     private boolean isInWater;
     private boolean isSprinting;
     private boolean isJumping;
+    private boolean isSwinging;
 
     private final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
 
@@ -68,6 +69,7 @@ public class StaminaManager {
         isInWater = player.isSubmergedInWater();
         isSprinting = player.isSprinting();
         isJumping = isJumping(isJumpKeyPressed);
+        isSwinging = player.handSwinging;
 
 //        System.out.println(isJumping+ " | " + player.input.jumping);
 
@@ -198,7 +200,7 @@ public class StaminaManager {
     private void deductStamina() {
         if (isRidingVehicle()) { return; }
         if (hasStaminaGainEffect()) { return; }
-        if (!isSprinting && !isJumping) { return; }
+        if (!isSprinting && !isJumping && !isSwinging) { return; }
 
         if (isSprinting) {
             int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
@@ -224,6 +226,18 @@ public class StaminaManager {
 
             stamina = stamina - jumpDeductAmt;
         } // Jump Deduct
+
+        if (isSwinging) {
+            int swingDeductAmt = getConfig(SWINGDEDUCTIONAMOUNT);
+
+            if (swingDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+            stamina = stamina - swingDeductAmt;
+        } // Attack Deduct
 
     }
 
