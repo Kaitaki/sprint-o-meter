@@ -77,6 +77,11 @@ public class SprintOConfig implements ConfigData {
 
     @ConfigEntry.Category("amountConf")
     @ConfigEntry.Gui.Tooltip(count = 3)
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    public int rollingDeductionAmount = 25;
+
+    @ConfigEntry.Category("amountConf")
+    @ConfigEntry.Gui.Tooltip(count = 3)
     @ConfigEntry.BoundedDiscrete(min = 1, max = 100)
     public int staminaRestorationAmount = 1;
 
@@ -173,6 +178,7 @@ public class SprintOConfig implements ConfigData {
         cp.addConfig(sprintConfig.saturationDependencyModifier); // 12
         cp.addConfig(sprintConfig.swingDeductionAmount); // 13
         cp.addConfig(sprintConfig.bcswingDeductionAmount); // 14
+        cp.addConfig(sprintConfig.rollingDeductionAmount); // 15
 
         cp.sendPacket();
 
