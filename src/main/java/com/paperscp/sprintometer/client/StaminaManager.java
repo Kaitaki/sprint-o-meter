@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -35,6 +36,7 @@ public class StaminaManager {
     private boolean jumped = false; // To make sure that stamina only gets deducted when the player jumps off the floor
 
     private int cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay = 0;
+    static int staminaAttackDelay = 0;
     private static boolean staminaDebuffSwitch = false;
 
     private boolean configChecked;
@@ -46,6 +48,7 @@ public class StaminaManager {
     private boolean isSprinting;
     private boolean isJumping;
     private boolean isSwinging;
+    static boolean isSwingingBC;
 
     private final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
 
@@ -62,6 +65,11 @@ public class StaminaManager {
 //        };
 //    }
 
+    public static void isAttacking(boolean bool) {
+        staminaAttackDelay = 4;
+        isSwingingBC = bool;
+    }
+
     public void tick() {
 
         player = client.player;
@@ -70,6 +78,10 @@ public class StaminaManager {
         isSprinting = player.isSprinting();
         isJumping = isJumping(isJumpKeyPressed);
         isSwinging = player.handSwinging;
+
+        if (staminaAttackDelay < 1) {
+            isSwingingBC = false;
+        } else {staminaAttackDelay --;}
 
 //        System.out.println(isJumping+ " | " + player.input.jumping);
 
@@ -200,7 +212,7 @@ public class StaminaManager {
     private void deductStamina() {
         if (isRidingVehicle()) { return; }
         if (hasStaminaGainEffect()) { return; }
-        if (!isSprinting && !isJumping && !isSwinging) { return; }
+        if (!isSprinting && !isJumping && !isSwinging && !isSwingingBC) { return; }
 
         if (isSprinting) {
             int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
@@ -227,7 +239,7 @@ public class StaminaManager {
             stamina = stamina - jumpDeductAmt;
         } // Jump Deduct
 
-        if (isSwinging) {
+        if (isSwinging || isSwingingBC) {
             int swingDeductAmt = getConfig(SWINGDEDUCTIONAMOUNT);
 
             if (swingDeductAmt != 0) {
@@ -237,7 +249,7 @@ public class StaminaManager {
             if (stamina == 0 || stamina < 0) { stamina = 0; return; }
 
             stamina = stamina - swingDeductAmt;
-        } // Attack Deduct
+        } // Swing Deduct
 
     }
 
