@@ -66,7 +66,6 @@ public class StaminaManager {
 //    }
 
     public static void isAttacking(boolean bool) {
-        staminaAttackDelay = 4;
         isSwingingBC = bool;
     }
 
@@ -78,10 +77,6 @@ public class StaminaManager {
         isSprinting = player.isSprinting();
         isJumping = isJumping(isJumpKeyPressed);
         isSwinging = player.handSwinging;
-
-        if (staminaAttackDelay < 1) {
-            isSwingingBC = false;
-        } else {staminaAttackDelay --;}
 
 //        System.out.println(isJumping+ " | " + player.input.jumping);
 
@@ -239,7 +234,7 @@ public class StaminaManager {
             stamina = stamina - jumpDeductAmt;
         } // Jump Deduct
 
-        if (isSwinging || isSwingingBC) {
+        if (isSwinging) {
             int swingDeductAmt = getConfig(SWINGDEDUCTIONAMOUNT);
 
             if (swingDeductAmt != 0) {
@@ -250,6 +245,19 @@ public class StaminaManager {
 
             stamina = stamina - swingDeductAmt;
         } // Swing Deduct
+
+        if (isSwingingBC) {
+            int bcswingDeductAmt = getConfig(BCSWINGDEDUCTIONAMOUNT);
+
+            if (bcswingDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+            stamina = stamina - bcswingDeductAmt;
+            isSwingingBC = false;
+        } // Better Combat Swing Deduct
 
     }
 
