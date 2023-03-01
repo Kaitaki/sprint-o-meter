@@ -18,7 +18,7 @@ public class ItemMixin {
     }
 */
     @Inject(at = @At("HEAD"), method = "getMiningSpeedMultiplier", cancellable = true)
-    public void getMiningSpeedMultiplier(CallbackInfoReturnable<Float> ci) {
+    public void sprintometer$getMiningSpeedMultiplier(CallbackInfoReturnable<Float> ci) {
         if (StaminaManager.isOutOfStamina()) { ci.setReturnValue(0f); }
     }
 }

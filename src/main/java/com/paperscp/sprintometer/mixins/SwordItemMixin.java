@@ -22,7 +22,7 @@ public class SwordItemMixin {
     }
 */
     @Inject(at = @At("HEAD"), method = "getHandSwingDuration", cancellable = true)
-    public void getHandSwingDuration(CallbackInfoReturnable<Integer> ci) {
+    public void sprintometer$getHandSwingDuration(CallbackInfoReturnable<Integer> ci) {
         if (StaminaManager.isOutOfStamina()) { ci.setReturnValue(16); }
     }
 }

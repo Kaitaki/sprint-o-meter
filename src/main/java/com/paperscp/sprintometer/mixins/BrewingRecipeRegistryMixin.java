@@ -18,7 +18,7 @@ public class BrewingRecipeRegistryMixin {
     private static void registerPotionRecipe(Potion input, Item item, Potion output) {}
 
     @Inject(at = { @At("TAIL") }, method = { "registerDefaults" })
-    private static void registerDefaults(CallbackInfo ci) {
+    private static void sprintometer$registerDefaults(CallbackInfo ci) {
 
         registerPotionRecipe(SprintPotion.STAMINA_INSTANTGAIN, Items.SUGAR, SprintPotion.STAMINA_GAIN);
         registerPotionRecipe(SprintPotion.STAMINA_GAIN, Items.GLOWSTONE_DUST, SprintPotion.STAMINA_GAIN_STRONG);

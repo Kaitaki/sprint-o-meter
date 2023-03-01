@@ -45,6 +45,7 @@ public class StaminaDebuff {
 
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 66, 0));
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 66, 0));
+                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 66, 0));
 
                 debuffDelay = 0; initApplied = 1;
             }
