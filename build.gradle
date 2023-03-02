@@ -44,6 +44,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:better-combat:${project.better_combat_version}-fabric"
 	modImplementation "maven.modrinth:combat-roll:${project.combat_roll_version}-fabric"
+	modImplementation "maven.modrinth:playerex:${project.playerex_version}"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
