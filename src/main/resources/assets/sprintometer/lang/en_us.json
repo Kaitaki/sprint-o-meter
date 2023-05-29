@@ -98,6 +98,21 @@
   "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[1]": " ",
   "text.autoconfig.sprintometer.option.jumpDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§njumpDeductionAmount (int)",
 
+  "text.autoconfig.sprintometer.option.swingDeductionAmount": "Swing Deduction Amount",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[0]": "§l|§r How much the swinging drains.",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.swingDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nswingDeductionAmount (int)",
+
+  "text.autoconfig.sprintometer.option.bcswingDeductionAmount": "[Better Combat] Swing Deduction Amount",
+  "text.autoconfig.sprintometer.option.bcswingDeductionAmount.@Tooltip[0]": "§l|§r How much weapon swings drain stamina when Better Combat is installed.",
+  "text.autoconfig.sprintometer.option.bcswingDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.bcswingDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nbcswingDeductionAmount (int)",
+
+  "text.autoconfig.sprintometer.option.rollingDeductionAmount": "[Combat Roll] Roll Deduction Amount",
+  "text.autoconfig.sprintometer.option.rollingDeductionAmount.@Tooltip[0]": "§l|§r How much rolls drain stamina when Combat Roll is installed.",
+  "text.autoconfig.sprintometer.option.rollingDeductionAmount.@Tooltip[1]": " ",
+  "text.autoconfig.sprintometer.option.rollingDeductionAmount.@Tooltip[2]": "§7§o(Default: 1) §r| §8§nbcswingDeductionAmount (int)",
+
   "text.autoconfig.sprintometer.option.staminaRestorationAmount": "Stamina Restoration Amount",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[0]": "§l|§r How much stamina is restored every tick.",
   "text.autoconfig.sprintometer.option.staminaRestorationAmount.@Tooltip[1]": " ",

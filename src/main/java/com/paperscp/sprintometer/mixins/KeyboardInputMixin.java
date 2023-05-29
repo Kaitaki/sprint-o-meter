@@ -26,7 +26,7 @@ public class KeyboardInputMixin extends Input {
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
-    public void tick(boolean slowDown, float f, CallbackInfo ci) {
+    public void sprintometer$tick(boolean slowDown, float f, CallbackInfo ci) {
         StaminaManager.isJumpKeyPressed = this.settings.jumpKey.isPressed();
 
         if (SprintConfigurator.getConfig(ConfiguratorOptions.JUMPDEBUFF) == 0) { return; }

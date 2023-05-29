@@ -4,11 +4,15 @@ import com.paperscp.sprintometer.config.SprintConfigurator;
 import com.paperscp.sprintometer.effects.SprintStatusEffect;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import com.paperscp.sprintometer.server.StaminaDebuff;
+import net.combatroll.client.CombatRollClient;
+import net.combatroll.client.RollManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -35,6 +39,7 @@ public class StaminaManager {
     private boolean jumped = false; // To make sure that stamina only gets deducted when the player jumps off the floor
 
     private int cooldownDelay, staminaDeductionDelay, staminaRestorationDelay, staminaDebuffDelay = 0;
+    static int staminaAttackDelay = 0;
     private static boolean staminaDebuffSwitch = false;
 
     private boolean configChecked;
@@ -45,6 +50,10 @@ public class StaminaManager {
     private boolean isInWater;
     private boolean isSprinting;
     private boolean isJumping;
+    private boolean isSwinging;
+    static boolean isSwingingBC;
+    static boolean isRolling;
+
 
     private final Identifier SPRINT_DEBUFF_IDENTIFIER = StaminaDebuff.getSprintDebuffIdentifier();
 
@@ -61,6 +70,13 @@ public class StaminaManager {
 //        };
 //    }
 
+    public static void isAttacking(boolean bool) {
+        isSwingingBC = bool;
+    }
+    public static void isRolling(boolean bool) {
+        isRolling = bool;
+    }
+
     public void tick() {
 
         player = client.player;
@@ -68,6 +84,7 @@ public class StaminaManager {
         isInWater = player.isSubmergedInWater();
         isSprinting = player.isSprinting();
         isJumping = isJumping(isJumpKeyPressed);
+        isSwinging = player.handSwinging;
 
 //        System.out.println(isJumping+ " | " + player.input.jumping);
 
@@ -120,8 +137,8 @@ public class StaminaManager {
                 staminaDeductionDelay = deductDelayCalc;
             } else { staminaDeductionDelay = getConfig(STAMINADEDUCTIONDELAY); }
 
-            if (stamina <= quarterStamina && (isSprinting || isJumping) && sprintConfig.enableLowStaminaWarn) {
-                player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2);
+            if (stamina <= quarterStamina && (isSprinting || isJumping || isSwinging || isSwingingBC || isRolling) && sprintConfig.enableLowStaminaWarn) {
+                player.playSound(SoundEvents.BLOCK_SMALL_AMETHYST_BUD_PLACE, 0.2f, 1.5f);
             }
         } else { staminaDeductionDelay--; }
 
@@ -198,7 +215,7 @@ public class StaminaManager {
     private void deductStamina() {
         if (isRidingVehicle()) { return; }
         if (hasStaminaGainEffect()) { return; }
-        if (!isSprinting && !isJumping) { return; }
+        if (!isSprinting && !isJumping && !isSwinging && !isSwingingBC && !isRolling) { return; }
 
         if (isSprinting) {
             int sprintDeductAmt = getConfig(SPRINTDEDUCTIONAMOUNT);
@@ -224,6 +241,47 @@ public class StaminaManager {
 
             stamina = stamina - jumpDeductAmt;
         } // Jump Deduct
+
+        if (isSwinging) {
+            int swingDeductAmt = getConfig(SWINGDEDUCTIONAMOUNT);
+
+            if (swingDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; return; }
+
+            stamina = stamina - swingDeductAmt;
+        } // Swing Deduct
+
+        if (isSwingingBC) {
+            int bcswingDeductAmt = getConfig(BCSWINGDEDUCTIONAMOUNT);
+
+            if (bcswingDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
+
+            if (stamina == 0 || stamina < 0) { stamina = 0; isSwingingBC = false; return; }
+
+            stamina = stamina - bcswingDeductAmt;
+            isSwingingBC = false;
+        } // Better Combat Swing Deduct
+
+        if (isRolling) {
+            int rollingDeductAmt = getConfig(ROLLINGDEDUCTIONAMOUNT);
+
+            if (rollingDeductAmt != 0) {
+                cooldownDelay = getConfig(COOLDOWNDELAY);
+            }
+
+            if (stamina == 0 || stamina < 0) {
+                stamina = 0; isRolling = false;
+                return;
+            }
+
+            stamina = stamina - rollingDeductAmt;
+            isRolling = false;
+        } // Combat Roll Rolling Deduct
 
     }
 

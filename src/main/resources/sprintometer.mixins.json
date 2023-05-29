@@ -8,8 +8,11 @@
   ],
   "client": [
     "InGameHudMixin",
+    "ItemMixin",
     "KeyboardInputMixin",
-    "PlayerEntityMixin"
+    "MiningToolItemMixin",
+    "PlayerEntityMixin",
+    "SwordItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

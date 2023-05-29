@@ -1,7 +1,11 @@
 package com.paperscp.sprintometer.server;
 
 import com.paperscp.sprintometer.config.SprintOConfig;
+import com.paperscp.sprintometer.events.AttackEntityHandler;
+import com.paperscp.sprintometer.events.PlayerDodgeHandler;
 import com.paperscp.sprintometer.registry.SprintRegistry;
+import net.bettercombat.api.client.BetterCombatClientEvents;
+import net.combatroll.api.event.ServerSideRollEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +30,8 @@ public class SprintOMeterServer implements ModInitializer {
         // Register //
 
         SprintRegistry.registerAll();
+
+        ServerSideRollEvents.PLAYER_START_ROLLING.register(new PlayerDodgeHandler());
 
         // Tick //
 
