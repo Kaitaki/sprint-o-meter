@@ -5,8 +5,9 @@ import com.paperscp.sprintometer.effects.SprintStatusEffect;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.potion.Potion;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 import static com.paperscp.sprintometer.server.SprintOMeterServer.sprintConfig;
@@ -34,7 +35,7 @@ public class SprintPotion {
 
     private static void rPotions(Potion potion, String id) {
         Identifier identifier = new Identifier(MOD_ID, id);
-        Registry.register(Registry.POTION, identifier, potion);
+        Registry.register(Registries.POTION, identifier, potion);
 
     }
 }

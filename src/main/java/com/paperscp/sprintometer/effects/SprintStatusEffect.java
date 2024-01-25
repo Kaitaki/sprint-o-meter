@@ -1,8 +1,9 @@
 package com.paperscp.sprintometer.effects;
 
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.paperscp.sprintometer.server.SprintOMeterServer.MOD_ID;
 
@@ -18,6 +19,6 @@ public class SprintStatusEffect {
 
     private static void rStatusEffects(StatusEffect statusEffect, String id) {
         Identifier identifier = new Identifier(MOD_ID, id);
-        Registry.register(Registry.STATUS_EFFECT, identifier, statusEffect);
+        Registry.register(Registries.STATUS_EFFECT, identifier, statusEffect);
     }
 }

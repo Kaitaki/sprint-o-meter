@@ -3,12 +3,12 @@ package com.paperscp.sprintometer.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.paperscp.sprintometer.server.SprintOMeterServer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class StaminaRenderer extends DrawableHelper {
+public class StaminaRenderer {
 
     private static final Identifier STAMINA_BAR = new Identifier("sprintometer:textures/gui/stamina_bar.png");
     private final MinecraftClient client;
@@ -32,7 +32,7 @@ public class StaminaRenderer extends DrawableHelper {
 //        };
 //    }
 
-    public void render(MatrixStack stack) {
+    public void render(DrawContext context) {
         ClientPlayerEntity player = client.player;
 
         int scaledWidth = this.client.getWindow().getScaledWidth() / 2;
@@ -71,8 +71,8 @@ public class StaminaRenderer extends DrawableHelper {
 //            tempCache = (byte) staminaIconCoords;
 
             RenderSystem.setShaderTexture(0, STAMINA_BAR);
-            drawTexture(stack, scaledWidth - 91, scaledHeight - 32 + 5, 0, 0, 182, 3);
-            drawTexture(stack,scaledWidth - 91, scaledHeight - 32 + 5,0, 3, staminaHudManager.getBarCoords(), 3);
+            context.drawTexture(STAMINA_BAR, scaledWidth - 91, scaledHeight - 32 + 5, 0, 0, 182, 3);
+            context.drawTexture(STAMINA_BAR,scaledWidth - 91, scaledHeight - 32 + 5,0, 3, staminaHudManager.getBarCoords(), 3);
 
         }
 
